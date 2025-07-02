@@ -1,0 +1,6 @@
+
+biopython==1.81
+transformers==4.41.1
+torch>=2.0.0
+vaderSentiment==3.3.2
+sympy==1.12
