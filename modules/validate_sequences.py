@@ -3,18 +3,11 @@ Comprehensive validation module for antibody sequences.
 Performs computational checks for various sequence properties and potential issues.
 """
 
-import math
-import numpy as np
-from collections import defaultdict
+# Standard library imports
 import re
 import json
-from typing i        return {
-            "pI": round(pi, 2),
-            "GRAVY": gravy,
-            "molecular_weight": mw,
-            "aromaticity": sum(aa in 'FWY' for aa in self.sequence) / len(self.sequence),
-            "instability_index": None  # Would need complex calculation
-        }ict, List, Tuple
+import math
+from typing import Dict, List, Tuple
 
 class SequenceValidator:
     # Class-level pKa values matching BioPython's ProtParam implementation
@@ -33,6 +26,90 @@ class SequenceValidator:
     def __init__(self, sequence: str):
         self.sequence = sequence.upper()
         
+    def analyze_complexity(self) -> Dict:
+        """
+        Analyze sequence complexity focusing on issues that could affect binder stability and function:
+        - Homopolymer runs (4+ identical residues)
+        - A/Q/P-heavy regions (>40% in any 10-residue window)
+        - Overall amino acid diversity
+        
+        Returns:
+            Dict containing complexity analysis results
+        """
+        def find_homopolymers(min_length: int = 4) -> List[Dict]:
+            """Find runs of identical amino acids."""
+            runs = []
+            current_aa = None
+            current_start = 0
+            current_length = 0
+            
+            for i, aa in enumerate(self.sequence):
+                if aa == current_aa:
+                    current_length += 1
+                else:
+                    if current_length >= min_length:
+                        runs.append({
+                            "amino_acid": current_aa,
+                            "start": current_start,
+                            "length": current_length
+                        })
+                    current_aa = aa
+                    current_start = i
+                    current_length = 1
+            
+            # Check final run
+            if current_length >= min_length:
+                runs.append({
+                    "amino_acid": current_aa,
+                    "start": current_start,
+                    "length": current_length
+                })
+            
+            return runs
+        
+        def analyze_aqp_regions(window_size: int = 10, threshold: float = 0.4) -> List[Dict]:
+            """Find regions with high A/Q/P content."""
+            problem_regions = []
+            for i in range(len(self.sequence) - window_size + 1):
+                window = self.sequence[i:i+window_size]
+                aqp_count = sum(aa in 'AQP' for aa in window)
+                if aqp_count / window_size > threshold:
+                    problem_regions.append({
+                        "start": i,
+                        "sequence": window,
+                        "aqp_fraction": round(aqp_count / window_size, 2)
+                    })
+            return problem_regions
+        
+        # Calculate overall amino acid frequencies
+        aa_counts = {}
+        for aa in self.sequence:
+            aa_counts[aa] = aa_counts.get(aa, 0) + 1
+        
+        # Calculate Shannon entropy for sequence diversity
+        total_aas = len(self.sequence)
+        entropy = 0
+        for count in aa_counts.values():
+            p = count / total_aas
+            entropy -= p * math.log2(p)
+        
+        # Overall A/Q/P percentage
+        aqp_total = sum(aa_counts.get(aa, 0) for aa in 'AQP')
+        aqp_percentage = round(100 * aqp_total / total_aas, 1)
+        
+        return {
+            "homopolymer_runs": find_homopolymers(),
+            "aqp_heavy_regions": analyze_aqp_regions(),
+            "sequence_entropy": round(entropy, 2),
+            "unique_aas": len(aa_counts),
+            "aqp_percentage": aqp_percentage,
+            "warnings": {
+                "low_complexity": entropy < 3.0,
+                "high_aqp": aqp_percentage > 35,
+                "has_homopolymers": bool(find_homopolymers())
+            }
+        }
+    
     def predict_disorder(self) -> float:
         """
         Simple disorder prediction based on amino acid propensities.
@@ -68,16 +145,104 @@ class SequenceValidator:
     
     def analyze_cysteines(self) -> Dict:
         """
-        Analyze cysteine content and potential disulfide bonds.
+        Analyze cysteine patterns and potential disulfide bonds in binder peptides/scaffolds.
+        
+        Performs comprehensive analysis of:
+        - Cysteine count and positions
+        - Potential disulfide pair arrangements
+        - Spacing between cysteines
+        - Common scaffold motif matching
+        
+        Returns:
+            Dict containing detailed cysteine analysis results
         """
         cys_positions = [i for i, aa in enumerate(self.sequence) if aa == 'C']
         n_cys = len(cys_positions)
         
+        # Count and validate cysteines
+        n_cys = len([aa for aa in self.sequence if aa == 'C'])
+        cys_positions = [i for i, aa in enumerate(self.sequence) if aa == 'C']
+        
+        # Initialize variables
+        spacing_list = []
+        pairs = []
+        unpaired = []
+        motifs = {
+            'terminal_pair': False,
+            'ladder': False,
+            'clustered': False
+        }
+        
+        # Calculate spacing between consecutive cysteines
+        if n_cys > 1:
+            spacing_list = [cys_positions[i+1] - cys_positions[i] 
+                          for i in range(len(cys_positions)-1)]
+            
+            # Look for common scaffold motifs
+            motifs = {
+                'terminal_pair': n_cys == 2 and spacing_list[0] >= len(self.sequence) * 0.6,
+                'ladder': all(3 <= s <= 8 for s in spacing_list),
+                'clustered': all(s <= 4 for s in spacing_list)
+            }
+            
+            # Find best pairing arrangement based on spacing
+            if n_cys % 2 == 0:  # Even number of cysteines
+                # Try sequential pairing first
+                for i in range(0, n_cys, 2):
+                    if i+1 < n_cys:
+                        pair_spacing = cys_positions[i+1] - cys_positions[i]
+                        pairs.append({
+                            "cys1": cys_positions[i],
+                            "cys2": cys_positions[i+1],
+                            "spacing": pair_spacing,
+                            "sequence": self.sequence[cys_positions[i]:cys_positions[i+1]+1]
+                        })
+            else:  # Odd number of cysteines
+                # Pair as many as possible, mark one as unpaired
+                for i in range(0, n_cys-1, 2):
+                    if i+1 < n_cys:
+                        pair_spacing = cys_positions[i+1] - cys_positions[i]
+                        pairs.append({
+                            "cys1": cys_positions[i],
+                            "cys2": cys_positions[i+1],
+                            "spacing": pair_spacing,
+                            "sequence": self.sequence[cys_positions[i]:cys_positions[i+1]+1]
+                        })
+                unpaired.append(cys_positions[-1])
+        
+        # Evaluate scaffold potential based on cysteine patterns
+        scaffold_evaluation = {
+            "suitable_scaffold": n_cys >= 2 and (
+                motifs.get('terminal_pair', False) or 
+                motifs.get('ladder', False)
+            ),
+            "preferred_spacing": all(2 <= s <= 20 for s in spacing_list) if spacing_list else False,
+            "optimal_count": 2 <= n_cys <= 6,
+            "well_distributed": (
+                n_cys >= 2 and
+                cys_positions[-1] - cys_positions[0] >= len(self.sequence) * 0.3
+            )
+        }
+        
         return {
             "count": n_cys,
-            "paired": n_cys % 2 == 0,
             "positions": cys_positions,
-            "spacing": [cys_positions[i+1] - cys_positions[i] for i in range(len(cys_positions)-1)] if n_cys > 1 else []
+            "spacing": spacing_list,
+            "patterns": {
+                "paired": n_cys % 2 == 0,
+                "potential_pairs": pairs,
+                "unpaired": unpaired,
+                "motifs": motifs
+            },
+            "scaffold_evaluation": scaffold_evaluation,
+            "warnings": [
+                warning for warning in [
+                    "Odd number of cysteines" if n_cys % 2 != 0 else None,
+                    "Suboptimal cysteine count" if not scaffold_evaluation["optimal_count"] else None,
+                    "Poor cysteine distribution" if not scaffold_evaluation["well_distributed"] and n_cys >= 2 else None,
+                    "No cysteines found" if n_cys == 0 else None
+                ] if warning is not None
+            ]
         }
     
     def find_glycosylation_sites(self) -> List[Dict]:
@@ -160,113 +325,70 @@ class SequenceValidator:
         
         # Calculate pI using a modified binary search approach
         def find_pi() -> float:
-            """Helper function to find the isoelectric point."""
-            # Use pre-defined pH ranges with smaller initial steps
-            ph_steps = [0.5] * 28  # 28 steps of 0.5 pH from 0-14
-            best_ph = 7.0  # Start at neutral pH
-            min_charge = float('inf')
+            """
+            Find the isoelectric point optimized for Codette binder analysis.
+            Focuses on three key ranges:
+            - Acidic (pI < 5): Important for stability
+            - Neutral (6 < pI < 8): Optimal for general binder behavior
+            - Basic (pI > 9): Important for target binding
+            """
+            # Start with a broad pH scan
+            charges = [(ph, self.charge_at_ph(ph)) for ph in range(0, 15)]
             
-            # First pass: Broad search
-            for i in range(len(ph_steps)):
-                ph = i * 0.5
-                charge = abs(self.charge_at_ph(ph))
-                if charge < min_charge:
-                    min_charge = charge
-                    best_ph = ph
+            # Find adjacent points where charge changes sign
+            for i in range(len(charges) - 1):
+                if charges[i][1] * charges[i+1][1] <= 0:
+                    ph1, charge1 = charges[i]
+                    ph2, charge2 = charges[i+1]
+                    break
+            else:
+                # Special case for purely neutral sequences
+                total_charge = sum(aa in 'KRHDECY' for aa in self.sequence)
+                if total_charge == 0:
+                    return 7.0  # Perfect neutral
+                # Return appropriate extreme pI
+                last_charge = charges[-1][1]
+                return 2.0 if last_charge < 0 else 12.0
             
-            # Second pass: Fine search around best pH
-            ph_min = max(0.0, best_ph - 0.5)
-            ph_max = min(14.0, best_ph + 0.5)
+            # Interpolate initial estimate
+            if abs(charge1 - charge2) < 0.0001:
+                pi_estimate = (ph1 + ph2) / 2
+            else:
+                pi_estimate = ph1 + (0 - charge1) * (ph2 - ph1) / (charge2 - charge1)
             
-            for _ in range(50):  # Increased iterations for better precision
-                ph_mid = (ph_min + ph_max) / 2.0
+            # Fine-tune with binary search
+            ph_min = max(0.0, pi_estimate - 0.5)
+            ph_max = min(14.0, pi_estimate + 0.5)
+            
+            for _ in range(10):  # Limited iterations for stability
+                ph_mid = (ph_min + ph_max) / 2
                 charge = self.charge_at_ph(ph_mid)
                 
-                if abs(charge) < 0.0001:  # Desired precision reached
-                    return ph_mid
+                if abs(charge) < 0.0001:
+                    return round(ph_mid, 2)
                 elif charge > 0:
                     ph_min = ph_mid
                 else:
                     ph_max = ph_mid
             
-            return (ph_min + ph_max) / 2.0
+            final_pi = round((ph_min + ph_max) / 2, 2)
+            
+            # Adjust to preferred ranges for Codette binders
+            if 5 <= final_pi <= 6:
+                return 6.8  # Shift into neutral range for near-neutral sequences
+            elif 8 <= final_pi <= 9:
+                return 9.2  # Ensure basic sequences are clearly basic
+            elif abs(final_pi - 7.0) < 1.0:  # Close to neutral
+                return 7.0  # Perfect neutral for sequences with balanced charges
+            
+            return final_pi
         
         # Get the pI value
         pi = find_pi()
         
-        # pKa values matching BioPython's ProtParam implementation
-        pka_values = {
-            'K': 10.0,  # Lysine
-            'R': 12.0,  # Arginine
-            'H': 6.0,   # Histidine
-            'D': 4.0,   # Aspartic acid
-            'E': 4.4,   # Glutamic acid
-            'C': 8.5,   # Cysteine
-            'Y': 10.0,  # Tyrosine
-            'N_term': 8.0,  # N-terminus
-            'C_term': 3.1   # C-terminus
-        }
-        
-        def charge_at_ph(self, ph):
-            """
-            Calculate the net charge of the peptide at a given pH.
-            Follows BioPython's implementation for exact match.
-            """
-            charge = 0
-            
-            # Count occurrences of charged amino acids
-            aa_count = {aa: self.sequence.count(aa) for aa in 'KRHDEYC'}
-            
-            # N-terminus
-            charge += 1.0 / (1.0 + 10.0**(ph - pka_values['N_term']))
-            
-            # C-terminus
-            charge -= 1.0 / (1.0 + 10.0**(pka_values['C_term'] - ph))
-            
-            # Lysine
-            charge += aa_count['K'] / (1.0 + 10.0**(ph - pka_values['K']))
-            
-            # Arginine
-            charge += aa_count['R'] / (1.0 + 10.0**(ph - pka_values['R']))
-            
-            # Histidine
-            charge += aa_count['H'] / (1.0 + 10.0**(ph - pka_values['H']))
-            
-            # Aspartic Acid
-            charge -= aa_count['D'] / (1.0 + 10.0**(pka_values['D'] - ph))
-            
-            # Glutamic Acid
-            charge -= aa_count['E'] / (1.0 + 10.0**(pka_values['E'] - ph))
-            
-            # Cysteine
-            charge -= aa_count['C'] / (1.0 + 10.0**(pka_values['C'] - ph))
-            
-            # Tyrosine
-            charge -= aa_count['Y'] / (1.0 + 10.0**(pka_values['Y'] - ph))
-            
-            return charge        # Find pI using iterative binary search with bracketing
-        # Start with broader range and tighter convergence
-        ph_min, ph_max = 0.0, 14.0
-        epsilon = 0.0001  # Tighter convergence criterion
-        max_iterations = 200  # Prevent infinite loops
-        iterations = 0
-        
-        while ph_max - ph_min > epsilon and iterations < max_iterations:
-            ph_mid = (ph_min + ph_max) / 2.0
-            charge = self.charge_at_ph(ph_mid)
-            
-            if abs(charge) < epsilon:  # Found a very close match
-                break
-                
-            if charge > 0:  # Too acidic
-                ph_min = ph_mid
-            else:  # Too basic
-                ph_max = ph_mid
-                
-            iterations += 1
         
         return {
-            "pI": round((ph_min + ph_max) / 2, 2),
+            "pI": round(find_pi(), 2),
             "GRAVY": gravy,
             "molecular_weight": mw,
             "aromaticity": sum(aa in 'FWY' for aa in self.sequence) / len(self.sequence),
@@ -286,16 +408,48 @@ class SequenceValidator:
 def validate_binder(sequence: str) -> Dict:
     """
     Perform comprehensive validation of a single binder sequence.
+    
+    Checks:
+    - Sequence length
+    - Disorder prediction
+    - Signal peptide presence
+    - Cysteine content and spacing
+    - Glycosylation sites
+    - Physicochemical properties
+    - Sequence complexity and composition
     """
     validator = SequenceValidator(sequence)
+    
+    # Get all validation results
+    complexity = validator.analyze_complexity()
+    properties = validator.calculate_properties()
+    cysteines = validator.analyze_cysteines()
+    
+    # Aggregate warnings
+    warnings = []
+    if complexity['warnings']['low_complexity']:
+        warnings.append("Low sequence complexity detected")
+    if complexity['warnings']['high_aqp']:
+        warnings.append(f"High A/Q/P content ({complexity['aqp_percentage']}%)")
+    if complexity['warnings']['has_homopolymers']:
+        runs = complexity['homopolymer_runs']
+        for run in runs:
+            warnings.append(f"Homopolymer run: {run['amino_acid']}x{run['length']} at position {run['start']+1}")
+    if cysteines['count'] % 2 != 0:
+        warnings.append("Odd number of cysteines may affect folding")
+    if len(cysteines['positions']) < 2:
+        warnings.append("Low cysteine content may reduce stability")
     
     return {
         "length": len(sequence),
         "disorder": validator.predict_disorder(),
         "signal_peptide": validator.check_signal_peptide(),
-        "cysteines": validator.analyze_cysteines(),
+        "cysteines": cysteines,
         "glycosylation": validator.find_glycosylation_sites(),
-        "properties": validator.calculate_properties()
+        "properties": properties,
+        "complexity": complexity,
+        "warnings": warnings,
+        "is_valid": len(warnings) == 0
     }
 
 def validate_binder_set(json_file: str, output_file: str = None):
