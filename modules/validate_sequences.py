@@ -520,20 +520,28 @@ class SequenceValidator:
         matches = sum(a == b for a, b in zip(seq1, seq2))
         return matches / len(seq1)
 
-def validate_binder(sequence: str) -> Dict:
+## Removed duplicate old definition of validate_binder
+def validate_binder(sequence: str, config: Dict = None) -> Dict:
     """
     Perform comprehensive validation of a single binder sequence.
+    
+    Args:
+        sequence: The amino acid sequence to validate
+        config: Optional configuration dictionary with validation parameters
     
     Checks:
     - Sequence length
     - Disorder prediction
-    - Signal peptide presence
+    - Signal peptide presence (configurable)
     - Cysteine content and spacing
     - Glycosylation sites
     - Physicochemical properties
     - Sequence complexity and composition
+    
+    Returns:
+        Dict containing comprehensive validation results
     """
-    validator = SequenceValidator(sequence)
+    validator = SequenceValidator(sequence, config)
     
     # Get all validation results
     complexity = validator.analyze_complexity()

@@ -45,7 +45,7 @@ def validate_criteria(results, criteria):
             failures.append(f"Sequence {binder['sequence'][:20]}... has signal peptide")
             
         # Check cysteine pairs
-        if criteria['cys_pairs'] == 'required' and not validation['cysteines']['paired']:
+        if criteria['cys_pairs'] == 'required' and not validation['cysteines']['patterns']['paired']:
             failures.append(f"Sequence {binder['sequence'][:20]}... lacks paired cysteines")
             
         # Check GRAVY
