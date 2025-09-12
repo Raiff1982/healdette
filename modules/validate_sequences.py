@@ -151,26 +151,112 @@ class SequenceValidator:
     
     def check_signal_peptide(self) -> Dict:
         """
-        Basic signal peptide detection heuristics.
-        Returns likelihood of being a signal peptide.
+        Enhanced signal peptide detection for binder peptides/scaffolds.
+        
+        Features analyzed:
+        - N-region: Basic amino acids (K/R)
+        - H-region: Hydrophobic core
+        - C-region: (-3, -1) rule with small neutral amino acids
+        - Length constraints
+        - Position-specific amino acid preferences
+        
+        Returns:
+            Dict containing detailed signal peptide analysis
         """
-        if len(self.sequence) < 15:
-            return {"has_signal": False, "confidence": 1.0}
-            
-        n_region = self.sequence[:5]
-        h_region = self.sequence[5:12]
-        c_region = self.sequence[12:15]
+        config = self.config['signal_peptide']
         
-        # Check for typical signal peptide features
-        n_region_positive = sum(aa in 'KR' for aa in n_region) >= 1
-        h_region_hydrophobic = sum(aa in 'AILMFWV' for aa in h_region) >= 4
-        c_region_pattern = bool(re.search('[AGST].[AGST]', c_region))
+        if not config['enabled']:
+            return {
+                "enabled": False,
+                "has_signal": False,
+                "confidence": 0.0,
+                "details": "Signal peptide detection disabled in configuration"
+            }
         
-        confidence = (n_region_positive + h_region_hydrophobic + c_region_pattern) / 3
-        return {
-            "has_signal": confidence > 0.6,
-            "confidence": confidence
+        if len(self.sequence) < config['min_length']:
+            return {
+                "enabled": True,
+                "has_signal": False,
+                "confidence": 1.0,
+                "details": f"Sequence too short (min {config['min_length']} residues required)"
+            }
+        
+        # Dynamic region sizing based on sequence length
+        n_region_length = min(6, len(self.sequence) // 5)
+        h_region_length = min(12, len(self.sequence) // 3)
+        c_region_length = 5
+        
+        total_sp_length = min(
+            n_region_length + h_region_length + c_region_length,
+            config['max_length']
+        )
+        
+        # Extract regions
+        n_region = self.sequence[:n_region_length]
+        h_region = self.sequence[n_region_length:n_region_length + h_region_length]
+        c_region = self.sequence[n_region_length + h_region_length:total_sp_length]
+        
+        # Analyze N-region (positive charge)
+        n_region_basic = sum(aa in 'KR' for aa in n_region)
+        n_region_score = n_region_basic / len(n_region)
+        n_region_valid = n_region_score >= config['n_region_basic_threshold']
+        
+        # Analyze H-region (hydrophobic core)
+        hydrophobic = set('AILMFWV')
+        h_region_hydrophobic = sum(aa in hydrophobic for aa in h_region)
+        h_region_score = h_region_hydrophobic / len(h_region)
+        h_region_valid = h_region_score >= config['h_region_hydrophobic_threshold']
+        
+        # Analyze C-region (-3, -1 rule)
+        c_region_valid = False
+        if len(c_region) >= 3:
+            small_neutral = set('AGST')
+            c_region_pattern = (
+                c_region[-3] in small_neutral and
+                c_region[-1] in small_neutral
+            )
+            # Check for proline disruption
+            no_proline_disruption = 'P' not in c_region[-3:]
+            c_region_valid = c_region_pattern and no_proline_disruption
+        
+        # Calculate overall confidence
+        feature_scores = [
+            n_region_score if n_region_valid else 0,
+            h_region_score if h_region_valid else 0,
+            1.0 if c_region_valid else 0
+        ]
+        confidence = sum(feature_scores) / len(feature_scores)
+        
+        has_signal = confidence >= config['confidence_threshold']
+        
+        # Prepare detailed analysis
+        details = {
+            "n_region": {
+                "sequence": n_region,
+                "basic_fraction": round(n_region_score, 2),
+                "valid": n_region_valid
+            },
+            "h_region": {
+                "sequence": h_region,
+                "hydrophobic_fraction": round(h_region_score, 2),
+                "valid": h_region_valid
+            },
+            "c_region": {
+                "sequence": c_region,
+                "valid": c_region_valid
+            }
         }
+        
+        result = {
+            "enabled": True,
+            "has_signal": has_signal,
+            "confidence": round(confidence, 2),
+            "details": details,
+            "signal_sequence": self.sequence[:total_sp_length] if has_signal else None,
+            "mature_sequence": self.sequence[total_sp_length:] if has_signal and config['strip'] else self.sequence
+        }
+        
+        return result
     
     def analyze_cysteines(self) -> Dict:
         """

@@ -1,0 +1,78 @@
+"""
+Comprehensive validation module for antibody sequences.
+Performs computational checks for various sequence properties and potential issues.
+"""
+
+# Standard library imports
+import re
+import json
+import math
+from typing import Dict, List, Tuple
+
+class SequenceValidator:
+    # Class-level pKa values matching BioPython's ProtParam implementation
+    pka_values = {
+        'K': 10.0,  # Lysine
+        'R': 12.0,  # Arginine
+        'H': 6.0,   # Histidine
+        'D': 4.0,   # Aspartic acid
+        'E': 4.4,   # Glutamic acid
+        'C': 8.5,   # Cysteine
+        'Y': 10.0,  # Tyrosine
+        'N_term': 8.0,  # N-terminus
+        'C_term': 3.1   # C-terminus
+    }
+    
+    def __init__(self, sequence: str, config: Dict = None):
+        """
+        Initialize sequence validator with optional configuration.
+        
+        Args:
+            sequence: The amino acid sequence to validate
+            config: Optional configuration dictionary with validation parameters
+        """
+        self.sequence = sequence.upper()
+        self.config = config or {}
+        
+        # Default configuration values
+        self.default_config = {
+            "signal_peptide": {
+                "enabled": True,
+                "min_length": 15,
+                "max_length": 30,
+                "required": False,
+                "strip": False,
+                "confidence_threshold": 0.6,
+                "n_region_basic_threshold": 0.3,  # Min fraction of K/R in N-region
+                "h_region_hydrophobic_threshold": 0.6  # Min fraction of hydrophobic residues in H-region
+            }
+        }
+        
+        # Merge provided config with defaults
+        for key, default_values in self.default_config.items():
+            if key not in self.config:
+                self.config[key] = {}
+            for param, value in default_values.items():
+                self.config[key][param] = self.config.get(key, {}).get(param, value)
+
+def validate_binder(sequence: str, config: Dict = None) -> Dict:
+    """
+    Perform comprehensive validation of a single binder sequence.
+    
+    Args:
+        sequence: The amino acid sequence to validate
+        config: Optional configuration dictionary with validation parameters
+    
+    Checks:
+    - Sequence length
+    - Disorder prediction
+    - Signal peptide presence (configurable)
+    - Cysteine content and spacing
+    - Glycosylation sites
+    - Physicochemical properties
+    - Sequence complexity
+    
+    Returns:
+        Dict containing comprehensive validation results
+    """
+    validator = SequenceValidator(sequence, config)
