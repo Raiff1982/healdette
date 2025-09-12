@@ -100,8 +100,50 @@ class SequenceValidator:
         }
         mw = sum(weights[aa] for aa in self.sequence)
         
+        # pKa values for amino acids
+        pka_values = {
+            'K': 10.0,  # Lysine
+            'R': 12.0,  # Arginine
+            'H': 6.08,  # Histidine
+            'D': 3.65,  # Aspartic acid
+            'E': 4.25,  # Glutamic acid
+            'C': 8.18,  # Cysteine
+            'Y': 10.46, # Tyrosine
+            'N_term': 8.0,  # N-terminus
+            'C_term': 3.1   # C-terminus
+        }
+        
+        # Calculate pI using iterative method
+        def charge_at_ph(ph):
+            charge = 0
+            # N-terminus
+            charge += 1 / (1 + 10**(ph - pka_values['N_term']))
+            # C-terminus
+            charge -= 1 / (1 + 10**(pka_values['C_term'] - ph))
+            
+            for aa in self.sequence:
+                if aa in 'KRH':  # Basic residues
+                    charge += 1 / (1 + 10**(ph - pka_values[aa]))
+                elif aa in 'DE':  # Acidic residues
+                    charge -= 1 / (1 + 10**(pka_values[aa] - ph))
+                elif aa == 'C':  # Cysteine
+                    charge -= 1 / (1 + 10**(pka_values[aa] - ph))
+                elif aa == 'Y':  # Tyrosine
+                    charge -= 1 / (1 + 10**(pka_values[aa] - ph))
+            return charge
+        
+        # Binary search for pI
+        ph_min, ph_max = 0, 14
+        while ph_max - ph_min > 0.01:
+            ph_mid = (ph_min + ph_max) / 2
+            charge = charge_at_ph(ph_mid)
+            if charge > 0:
+                ph_min = ph_mid
+            else:
+                ph_max = ph_mid
+        
         return {
-            "pI": 7.0,  # Simplified - would need complex calculation
+            "pI": round((ph_min + ph_max) / 2, 2),
             "GRAVY": gravy,
             "molecular_weight": mw,
             "aromaticity": sum(aa in 'FWY' for aa in self.sequence) / len(self.sequence),

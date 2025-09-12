@@ -4,12 +4,27 @@ Version: 1.0.0
 Commit: main-2025-09-12
 DOI: 10.57967/hf/5917
 
-Overview:
-- Generated 7 personalized antibody sequences
+Execution Details:
+```bash
+python run_pipeline.py --deterministic --seed 42
+```
+
+Environment:
+- Python 3.10.8
+- Environment hash: <SHA256 of pip freeze output>
+- OS: Windows 10
+- Hardware: CPU-only execution
+
+Input Parameters:
 - Ancestry profile: Native, Irish
 - HLA matches: 2
 - Prior exposures: SARS-CoV-2, Influenza-B
 - Metabolic factor: 1.2
+- Random seed: 42
+
+Generated Sequences Analysis:
+| ID | Length | Score | Disorder | Cys Pairs | N-glyc | GRAVY | pI |
+|----|--------|--------|----------|------------|--------|--------|-----|
 
 Key Findings:
 1. Length distribution: 43-563 amino acids
