@@ -8,7 +8,13 @@ import numpy as np
 from collections import defaultdict
 import re
 import json
-from typing import Dict, List, Tuple
+from typing i        return {
+            "pI": round(pi, 2),
+            "GRAVY": gravy,
+            "molecular_weight": mw,
+            "aromaticity": sum(aa in 'FWY' for aa in self.sequence) / len(self.sequence),
+            "instability_index": None  # Would need complex calculation
+        }ict, List, Tuple
 
 class SequenceValidator:
     # Class-level pKa values matching BioPython's ProtParam implementation
@@ -151,6 +157,42 @@ class SequenceValidator:
             'S': 105.1, 'T': 119.1, 'W': 204.2, 'Y': 181.2, 'V': 117.1
         }
         mw = sum(weights[aa] for aa in self.sequence)
+        
+        # Calculate pI using a modified binary search approach
+        def find_pi() -> float:
+            """Helper function to find the isoelectric point."""
+            # Use pre-defined pH ranges with smaller initial steps
+            ph_steps = [0.5] * 28  # 28 steps of 0.5 pH from 0-14
+            best_ph = 7.0  # Start at neutral pH
+            min_charge = float('inf')
+            
+            # First pass: Broad search
+            for i in range(len(ph_steps)):
+                ph = i * 0.5
+                charge = abs(self.charge_at_ph(ph))
+                if charge < min_charge:
+                    min_charge = charge
+                    best_ph = ph
+            
+            # Second pass: Fine search around best pH
+            ph_min = max(0.0, best_ph - 0.5)
+            ph_max = min(14.0, best_ph + 0.5)
+            
+            for _ in range(50):  # Increased iterations for better precision
+                ph_mid = (ph_min + ph_max) / 2.0
+                charge = self.charge_at_ph(ph_mid)
+                
+                if abs(charge) < 0.0001:  # Desired precision reached
+                    return ph_mid
+                elif charge > 0:
+                    ph_min = ph_mid
+                else:
+                    ph_max = ph_mid
+            
+            return (ph_min + ph_max) / 2.0
+        
+        # Get the pI value
+        pi = find_pi()
         
         # pKa values matching BioPython's ProtParam implementation
         pka_values = {
