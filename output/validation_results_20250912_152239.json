@@ -1,0 +1,295 @@
+{
+    "validated_binders": [
+        {
+            "sequence": "AAAAAAAAAAAAAGPYTPQQGTAGAAQDGATPAAAAQAAAAPAAAAQPAAARAAAADTRQEEQDMLLQQQQQQQQQQQQQEQLEALRQALDELQQQMLLQQTAAAAAAPAADVAAAAAALTATAADTAAAAADAAAAARISSTAAAAAAEAPAAATAAAAAAPTAAAAAAAPEQQQHDEGQPLQQHQKEATGREEEPQQHQQQQQQNQQNQQQQQQLQQKQEQQHDEAQQQQQQQQHRQQQQQQQQSAEQQQEEEQQQQVLQQGTELLPQEDPPAAAAAAPAAAAAAAVAAAAAHRSGRAPPPPITAAAAAAAAATAAAAAPSAVEAALDALITPPGPPLSRQRSSAAASADGAAAAADAAAAAGAAAGRRRSSSSSSSGKGLQQRALQQQQQHEQQQQQQQQQQQQQQQQQEEEAKEARCSGATAAAAAAGATALAAAAPATTAAAAAAAAAAAAAAAQALSWGPPTAAAAAAAAGAAATAAVAAAAAAAAATAAAAACAAAVAPAAAEALAAAATAAAAAYAAAAAAAAARLLSWRPRTSAAAAAAAGAAAAAAAAAAAAV",
+            "personalization_score": 0.7798,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience.",
+            "validation": {
+                "length": 563,
+                "disorder": 0.42451154529307283,
+                "signal_peptide": {
+                    "has_signal": false,
+                    "confidence": 0.3333333333333333
+                },
+                "cysteines": {
+                    "count": 2,
+                    "paired": true,
+                    "positions": [
+                        420,
+                        499
+                    ],
+                    "spacing": [
+                        79
+                    ]
+                },
+                "glycosylation": [],
+                "properties": {
+                    "pI": 7.0,
+                    "GRAVY": -0.2477797513321492,
+                    "molecular_weight": 64209.399999999994,
+                    "aromaticity": 0.007104795737122558,
+                    "instability_index": null
+                }
+            }
+        },
+        {
+            "sequence": "AAAAAAAAAATATTADSTAVAAAAEAAAPAAAAAAAAAAAALVVVEEQQQQQQQTRLPILPTYQHLQQLLQQQKKKRRRRAAAAATTTAAAATAAATAAAATEEAAADEREQQEQQQDEEGEEEQQQQQQQQQQQLLLQQHDGGGSSSSKQQQQQQQQQHSSSSKQQQQQQQQLQQQQQQQLLLLLLQRCVSGAAAAAAAGVAAAAGVAAAAAVGVAAAAAVGVAAAVAVGVVAATAAGAAAAAGVVVAAAAGAALWLLPLQQPQLLQQQSISSSSSSSSSSSSNSSSSSKQQQQQQQHSSSSSSSSSNGSNSSISNNNNNSSNSSNNSSSSNSSSSSSNNCGQRQRRGDQQQQQQQQQQLQQQHHHQQQQQQQQQQQQQQQQQQQQQQQHGSCEWGQQQQQQQQQQQEQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQEQQQQQQQQQQQQQQHHRQQQQQQQQQQQEQQLLQQQDQQLQQQGRQQQLQQQQQQQQQQQQEQQQQQQQQQQQQQQQQQQQLSPPKLLLLQLLQQQQQQQQQH",
+            "personalization_score": 0.6906,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience.",
+            "validation": {
+                "length": 545,
+                "disorder": 0.6770642201834862,
+                "signal_peptide": {
+                    "has_signal": true,
+                    "confidence": 0.6666666666666666
+                },
+                "cysteines": {
+                    "count": 3,
+                    "paired": false,
+                    "positions": [
+                        189,
+                        341,
+                        393
+                    ],
+                    "spacing": [
+                        152,
+                        52
+                    ]
+                },
+                "glycosylation": [
+                    {
+                        "position": 284,
+                        "motif": "NSS"
+                    },
+                    {
+                        "position": 308,
+                        "motif": "NGS"
+                    },
+                    {
+                        "position": 311,
+                        "motif": "NSS"
+                    },
+                    {
+                        "position": 319,
+                        "motif": "NNS"
+                    },
+                    {
+                        "position": 323,
+                        "motif": "NSS"
+                    },
+                    {
+                        "position": 326,
+                        "motif": "NNS"
+                    },
+                    {
+                        "position": 332,
+                        "motif": "NSS"
+                    }
+                ],
+                "properties": {
+                    "pI": 7.0,
+                    "GRAVY": -1.3541284403669724,
+                    "molecular_weight": 69391.7,
+                    "aromaticity": 0.005504587155963303,
+                    "instability_index": null
+                }
+            }
+        },
+        {
+            "sequence": "AAAAAAAAAATELQRQQQLLLLQQQELQHSPRQQRHAAAAAAQAEAAAAAAAAAQLPAAAAATAAAAARPQQPQPVQPQEPAAAAAAVAAAADDVSAAPAALPPGAAPAAAAAAAAAARAAAAAACTEAAAAAAARAAAATAAAAVAAAAAAEPVAATAAAAAAAVCLLLL",
+            "personalization_score": 0.6624,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience.",
+            "validation": {
+                "length": 171,
+                "disorder": 0.26900584795321636,
+                "signal_peptide": {
+                    "has_signal": false,
+                    "confidence": 0.3333333333333333
+                },
+                "cysteines": {
+                    "count": 2,
+                    "paired": true,
+                    "positions": [
+                        125,
+                        166
+                    ],
+                    "spacing": [
+                        41
+                    ]
+                },
+                "glycosylation": [],
+                "properties": {
+                    "pI": 7.0,
+                    "GRAVY": 0.6233918128654972,
+                    "molecular_weight": 18503.0,
+                    "aromaticity": 0.0,
+                    "instability_index": null
+                }
+            }
+        },
+        {
+            "sequence": "AAAAAAAAAAKKGAGKGEEVAVAAVEEGELADEIPPPGFWGDK",
+            "personalization_score": 0.6378,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience.",
+            "validation": {
+                "length": 43,
+                "disorder": 0.4883720930232558,
+                "signal_peptide": {
+                    "has_signal": true,
+                    "confidence": 0.6666666666666666
+                },
+                "cysteines": {
+                    "count": 0,
+                    "paired": true,
+                    "positions": [],
+                    "spacing": []
+                },
+                "glycosylation": [],
+                "properties": {
+                    "pI": 7.0,
+                    "GRAVY": -0.023255813953488354,
+                    "molecular_weight": 4849.099999999999,
+                    "aromaticity": 0.046511627906976744,
+                    "instability_index": null
+                }
+            }
+        },
+        {
+            "sequence": "AAAAAAAAAAALDASGDQASLAGCIAASGPSAALTTLPTIISSGTVAGTMLSPSSTAAGLILSGLTAATSSSSSSSSFSSSLSAATSSSTAAAAAAAAAAAGGAAAAA",
+            "personalization_score": 0.6203,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience.",
+            "validation": {
+                "length": 108,
+                "disorder": 0.37037037037037035,
+                "signal_peptide": {
+                    "has_signal": false,
+                    "confidence": 0.3333333333333333
+                },
+                "cysteines": {
+                    "count": 1,
+                    "paired": false,
+                    "positions": [
+                        23
+                    ],
+                    "spacing": []
+                },
+                "glycosylation": [],
+                "properties": {
+                    "pI": 7.0,
+                    "GRAVY": 0.8472222222222222,
+                    "molecular_weight": 11163.5,
+                    "aromaticity": 0.009259259259259259,
+                    "instability_index": null
+                }
+            }
+        },
+        {
+            "sequence": "AAAAAAAAAAGGGGVGPGSIDAAAGQRHQLAMNPYQLAALLAASGQLPAPPNPALLGASRPPMTPQSATSPLRTPTSPLSAAPAPGPPFHNSAYTNGRGSSPAPPARPVHASRGSSVRGDSVSSGDSDHSSAPPASRRQRAGSVLSIGSSDFATAAEQRAAAAAAVAASAVSSGAAAAAAAPPVQPPASATPAPAPAPLAASAAAAAAAQPSAGSAKAQAASPARRATTAAPTAAAGGAPGPLVRSRSARRAAAVSQQQAGQQSRGSSSNGGSGGGRDSGGSSGGGSGARRDDAPMSAAAAAAAAAAAGGHDAAAAAAPSQHTGHDGGAGGAAGAAAAAAAAADEDEDASMDVEWRDGASGSGAAAPIAAADAAPAVVAAGVADTPAPAPAAAAAATDAPAAAPPAADAPPAAEAATGADAAPAAADADATAPAPVVDAAADADAPLADDAAAAAAAAAAAAAAPGAAAADAPAAAPPAVAAPAPACAPAAPAAAPAPPAPAPAAVAAAAAASAPAPAPAPAPAPAPAAAAAAAAAPAAAAAQP",
+            "personalization_score": 0.7698,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience.",
+            "validation": {
+                "length": 544,
+                "disorder": 0.45955882352941174,
+                "signal_peptide": {
+                    "has_signal": false,
+                    "confidence": 0.3333333333333333
+                },
+                "cysteines": {
+                    "count": 1,
+                    "paired": false,
+                    "positions": [
+                        486
+                    ],
+                    "spacing": []
+                },
+                "glycosylation": [],
+                "properties": {
+                    "pI": 7.0,
+                    "GRAVY": 0.10367647058823529,
+                    "molecular_weight": 57933.7,
+                    "aromaticity": 0.009191176470588236,
+                    "instability_index": null
+                }
+            }
+        },
+        {
+            "sequence": "AAAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAVAAAAAMEDDAAAAAAAVAVAAAAAAAAAMEGDAMAAAAAVAAAAAMEDDAMAAAAAVAAAAAAAMEDDAAAAAAVAAAAAMEDDAAAAAAAMAAAAAMEDDAAAAAAAMAAAAAMEDDAAAAAAAMAAAAAMEDDAAAAAAAMLQVAAAAASAAAAAAAAAMDVCVYLLLHRRPP",
+            "personalization_score": 0.6787,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience.",
+            "validation": {
+                "length": 329,
+                "disorder": 0.18541033434650456,
+                "signal_peptide": {
+                    "has_signal": false,
+                    "confidence": 0.3333333333333333
+                },
+                "cysteines": {
+                    "count": 1,
+                    "paired": false,
+                    "positions": [
+                        318
+                    ],
+                    "spacing": []
+                },
+                "glycosylation": [],
+                "properties": {
+                    "pI": 7.0,
+                    "GRAVY": 0.9185410334346504,
+                    "molecular_weight": 34937.4,
+                    "aromaticity": 0.00303951367781155,
+                    "instability_index": null
+                }
+            }
+        }
+    ],
+    "similar_groups": []
+}

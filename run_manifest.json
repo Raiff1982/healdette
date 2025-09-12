@@ -1,0 +1,31 @@
+{
+    "run_metadata": {
+        "timestamp": "2025-09-12T15:06:58",
+        "environment": "environment.yaml",
+        "commit_hash": "main-2025-09-12"
+    },
+    "input_parameters": {
+        "ancestry_profile": ["Native", "Irish"],
+        "hla_matches": 2,
+        "prior_exposure": ["SARS-CoV-2", "Influenza-B"],
+        "metabolic_factor": 1.2,
+        "target_sequence": "MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFD"
+    },
+    "artifacts": {
+        "input_files": {
+            "main.py": "<sha256>",
+            "environment.yaml": "<sha256>"
+        },
+        "output_files": {
+            "codette_antibody_designs_20250912_150658.json": "<sha256>",
+            "validation_results_20250912_152239.json": "<sha256>",
+            "sequence_analysis.png": "<sha256>"
+        }
+    },
+    "validation_criteria": {
+        "disorder_threshold": 0.5,
+        "signal_peptide": "disallow",
+        "cys_pairs": "required",
+        "gravy_range": [-1.0, 1.0]
+    }
+}

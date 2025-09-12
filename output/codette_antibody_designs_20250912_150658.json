@@ -1,0 +1,88 @@
+{
+    "personalized_binders": [
+        {
+            "sequence": "AAAAAAAAAAAAAGPYTPQQGTAGAAQDGATPAAAAQAAAAPAAAAQPAAARAAAADTRQEEQDMLLQQQQQQQQQQQQQEQLEALRQALDELQQQMLLQQTAAAAAAPAADVAAAAAALTATAADTAAAAADAAAAARISSTAAAAAAEAPAAATAAAAAAPTAAAAAAAPEQQQHDEGQPLQQHQKEATGREEEPQQHQQQQQQNQQNQQQQQQLQQKQEQQHDEAQQQQQQQQHRQQQQQQQQSAEQQQEEEQQQQVLQQGTELLPQEDPPAAAAAAPAAAAAAAVAAAAAHRSGRAPPPPITAAAAAAAAATAAAAAPSAVEAALDALITPPGPPLSRQRSSAAASADGAAAAADAAAAAGAAAGRRRSSSSSSSGKGLQQRALQQQQQHEQQQQQQQQQQQQQQQQQEEEAKEARCSGATAAAAAAGATALAAAAPATTAAAAAAAAAAAAAAAQALSWGPPTAAAAAAAAGAAATAAVAAAAAAAAATAAAAACAAAVAPAAAEALAAAATAAAAAYAAAAAAAAARLLSWRPRTSAAAAAAAGAAAAAAAAAAAAV",
+            "personalization_score": 0.7798,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience."
+        },
+        {
+            "sequence": "AAAAAAAAAATATTADSTAVAAAAEAAAPAAAAAAAAAAAALVVVEEQQQQQQQTRLPILPTYQHLQQLLQQQKKKRRRRAAAAATTTAAAATAAATAAAATEEAAADEREQQEQQQDEEGEEEQQQQQQQQQQQLLLQQHDGGGSSSSKQQQQQQQQQHSSSSKQQQQQQQQLQQQQQQQLLLLLLQRCVSGAAAAAAAGVAAAAGVAAAAAVGVAAAAAVGVAAAVAVGVVAATAAGAAAAAGVVVAAAAGAALWLLPLQQPQLLQQQSISSSSSSSSSSSSNSSSSSKQQQQQQQHSSSSSSSSSNGSNSSISNNNNNSSNSSNNSSSSNSSSSSSNNCGQRQRRGDQQQQQQQQQQLQQQHHHQQQQQQQQQQQQQQQQQQQQQQQHGSCEWGQQQQQQQQQQQEQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQEQQQQQQQQQQQQQQHHRQQQQQQQQQQQEQQLLQQQDQQLQQQGRQQQLQQQQQQQQQQQQEQQQQQQQQQQQQQQQQQQQLSPPKLLLLQLLQQQQQQQQQH",
+            "personalization_score": 0.6906,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience."
+        },
+        {
+            "sequence": "AAAAAAAAAATELQRQQQLLLLQQQELQHSPRQQRHAAAAAAQAEAAAAAAAAAQLPAAAAATAAAAARPQQPQPVQPQEPAAAAAAVAAAADDVSAAPAALPPGAAPAAAAAAAAAARAAAAAACTEAAAAAAARAAAATAAAAVAAAAAAEPVAATAAAAAAAVCLLLL",
+            "personalization_score": 0.6624,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience."
+        },
+        {
+            "sequence": "AAAAAAAAAAKKGAGKGEEVAVAAVEEGELADEIPPPGFWGDK",
+            "personalization_score": 0.6378,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience."
+        },
+        {
+            "sequence": "AAAAAAAAAAALDASGDQASLAGCIAASGPSAALTTLPTIISSGTVAGTMLSPSSTAAGLILSGLTAATSSSSSSSSFSSSLSAATSSSTAAAAAAAAAAAGGAAAAA",
+            "personalization_score": 0.6203,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience."
+        },
+        {
+            "sequence": "AAAAAAAAAAGGGGVGPGSIDAAAGQRHQLAMNPYQLAALLAASGQLPAPPNPALLGASRPPMTPQSATSPLRTPTSPLSAAPAPGPPFHNSAYTNGRGSSPAPPARPVHASRGSSVRGDSVSSGDSDHSSAPPASRRQRAGSVLSIGSSDFATAAEQRAAAAAAVAASAVSSGAAAAAAAPPVQPPASATPAPAPAPLAASAAAAAAAQPSAGSAKAQAASPARRATTAAPTAAAGGAPGPLVRSRSARRAAAVSQQQAGQQSRGSSSNGGSGGGRDSGGSSGGGSGARRDDAPMSAAAAAAAAAAAGGHDAAAAAAPSQHTGHDGGAGGAAGAAAAAAAAADEDEDASMDVEWRDGASGSGAAAPIAAADAAPAVVAAGVADTPAPAPAAAAAATDAPAAAPPAADAPPAAEAATGADAAPAAADADATAPAPVVDAAADADAPLADDAAAAAAAAAAAAAAPGAAAADAPAAAPPAVAAPAPACAPAAPAAAPAPPAPAPAAVAAAAAASAPAPAPAPAPAPAPAAAAAAAAAPAAAAAQP",
+            "personalization_score": 0.7698,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience."
+        },
+        {
+            "sequence": "AAAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAAAAAMEDDAMAAAAAVAAAAAMEDDAAAAAAAVAVAAAAAAAAAMEGDAMAAAAAVAAAAAMEDDAMAAAAAVAAAAAAAMEDDAAAAAAVAAAAAMEDDAAAAAAAMAAAAAMEDDAAAAAAAMAAAAAMEDDAAAAAAAMAAAAAMEDDAAAAAAAMLQVAAAAASAAAAAAAAAMDVCVYLLLHRRPP",
+            "personalization_score": 0.6787,
+            "ancestry_tags": [
+                "Native",
+                "Irish"
+            ],
+            "hla_matches": 2,
+            "metabolic_factor": 1.2,
+            "exposure_weight": 1.0,
+            "ethics_notice": "Ancestry-aware modeling active. Logged and ethically approved by Codette's CoreConscience."
+        }
+    ]
+}

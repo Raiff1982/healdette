@@ -1,0 +1,23 @@
+dependencies:
+  numpy: 2.3.3
+  transformers: 4.41.1
+  biopython: 1.81
+  matplotlib: 3.8.0
+  pandas: 2.1.1
+  torch: 2.0.1
+  tokenizers: 0.19.1
+
+hardware:
+  cpu: x86_64 architecture
+  ram: 8GB minimum recommended
+  gpu: Optional, CUDA compatible
+  os: Windows/Linux/MacOS compatible
+
+seeds:
+  random_seed: 42  # Used for reproducible sampling
+  numpy_seed: 42   # Used for numpy operations
+  torch_seed: 42   # Used for PyTorch operations
+
+version_control:
+  commit_hash: main-2025-09-12  # Replace with actual hash
+  repository: https://github.com/Raiff1982/healdette
