@@ -23,8 +23,37 @@ class SequenceValidator:
         'C_term': 3.1   # C-terminus
     }
     
-    def __init__(self, sequence: str):
+    def __init__(self, sequence: str, config: Dict = None):
+        """
+        Initialize sequence validator with optional configuration.
+        
+        Args:
+            sequence: The amino acid sequence to validate
+            config: Optional configuration dictionary with validation parameters
+        """
         self.sequence = sequence.upper()
+        self.config = config or {}
+        
+        # Default configuration values
+        self.default_config = {
+            "signal_peptide": {
+                "enabled": True,
+                "min_length": 15,
+                "max_length": 30,
+                "required": False,
+                "strip": False,
+                "confidence_threshold": 0.6,
+                "n_region_basic_threshold": 0.3,  # Min fraction of K/R in N-region
+                "h_region_hydrophobic_threshold": 0.6  # Min fraction of hydrophobic residues in H-region
+            }
+        }
+        
+        # Merge provided config with defaults
+        for key, default_values in self.default_config.items():
+            if key not in self.config:
+                self.config[key] = {}
+            for param, value in default_values.items():
+                self.config[key][param] = self.config.get(key, {}).get(param, value)
         
     def analyze_complexity(self) -> Dict:
         """
