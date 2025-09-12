@@ -3,10 +3,11 @@ message: "If you use this software, please cite it using these metadata."
 title: "Healdette: Ancestry-Aware Antibody Design Pipeline"
 version: "1.0.0"
 date-released: "2025-09-12"
+doi: "10.57967/hf/5917"
 authors:
-  - family-names: "Raiff"
-    given-names: "Jonathan"
-    orcid: "https://orcid.org/0000-0000-0000-0000"  # Replace with actual ORCID
+  - family-names: "Light"
+    given-names: "Jonathan Harrison"
+    orcid: "https://orcid.org/0009-0003-7005-8187"
 repository-code: "https://github.com/Raiff1982/healdette"
 abstract: >
     Healdette is an ethics-aware, ancestry-informed system for designing 
