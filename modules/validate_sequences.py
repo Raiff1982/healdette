@@ -11,6 +11,19 @@ import json
 from typing import Dict, List, Tuple
 
 class SequenceValidator:
+    # Class-level pKa values matching BioPython's ProtParam implementation
+    pka_values = {
+        'K': 10.0,  # Lysine
+        'R': 12.0,  # Arginine
+        'H': 6.0,   # Histidine
+        'D': 4.0,   # Aspartic acid
+        'E': 4.4,   # Glutamic acid
+        'C': 8.5,   # Cysteine
+        'Y': 10.0,  # Tyrosine
+        'N_term': 8.0,  # N-terminus
+        'C_term': 3.1   # C-terminus
+    }
+    
     def __init__(self, sequence: str):
         self.sequence = sequence.upper()
         
@@ -76,6 +89,45 @@ class SequenceValidator:
         
         return sites
     
+    def charge_at_ph(self, ph: float) -> float:
+        """
+        Calculate the net charge of the peptide at a given pH.
+        Follows BioPython's implementation for exact match.
+        """
+        charge = 0
+        
+        # Count occurrences of charged amino acids
+        aa_count = {aa: self.sequence.count(aa) for aa in 'KRHDEYC'}
+        
+        # N-terminus
+        charge += 1.0 / (1.0 + 10.0**(ph - self.pka_values['N_term']))
+        
+        # C-terminus
+        charge -= 1.0 / (1.0 + 10.0**(self.pka_values['C_term'] - ph))
+        
+        # Lysine
+        charge += aa_count['K'] / (1.0 + 10.0**(ph - self.pka_values['K']))
+        
+        # Arginine
+        charge += aa_count['R'] / (1.0 + 10.0**(ph - self.pka_values['R']))
+        
+        # Histidine
+        charge += aa_count['H'] / (1.0 + 10.0**(ph - self.pka_values['H']))
+        
+        # Aspartic Acid
+        charge -= aa_count['D'] / (1.0 + 10.0**(self.pka_values['D'] - ph))
+        
+        # Glutamic Acid
+        charge -= aa_count['E'] / (1.0 + 10.0**(self.pka_values['E'] - ph))
+        
+        # Cysteine
+        charge -= aa_count['C'] / (1.0 + 10.0**(self.pka_values['C'] - ph))
+        
+        # Tyrosine
+        charge -= aa_count['Y'] / (1.0 + 10.0**(self.pka_values['Y'] - ph))
+        
+        return charge
+    
     def calculate_properties(self) -> Dict:
         """
         Calculate various physicochemical properties.
@@ -100,47 +152,76 @@ class SequenceValidator:
         }
         mw = sum(weights[aa] for aa in self.sequence)
         
-        # pKa values for amino acids
+        # pKa values matching BioPython's ProtParam implementation
         pka_values = {
             'K': 10.0,  # Lysine
             'R': 12.0,  # Arginine
-            'H': 6.08,  # Histidine
-            'D': 3.65,  # Aspartic acid
-            'E': 4.25,  # Glutamic acid
-            'C': 8.18,  # Cysteine
-            'Y': 10.46, # Tyrosine
+            'H': 6.0,   # Histidine
+            'D': 4.0,   # Aspartic acid
+            'E': 4.4,   # Glutamic acid
+            'C': 8.5,   # Cysteine
+            'Y': 10.0,  # Tyrosine
             'N_term': 8.0,  # N-terminus
             'C_term': 3.1   # C-terminus
         }
         
-        # Calculate pI using iterative method
-        def charge_at_ph(ph):
+        def charge_at_ph(self, ph):
+            """
+            Calculate the net charge of the peptide at a given pH.
+            Follows BioPython's implementation for exact match.
+            """
             charge = 0
-            # N-terminus
-            charge += 1 / (1 + 10**(ph - pka_values['N_term']))
-            # C-terminus
-            charge -= 1 / (1 + 10**(pka_values['C_term'] - ph))
             
-            for aa in self.sequence:
-                if aa in 'KRH':  # Basic residues
-                    charge += 1 / (1 + 10**(ph - pka_values[aa]))
-                elif aa in 'DE':  # Acidic residues
-                    charge -= 1 / (1 + 10**(pka_values[aa] - ph))
-                elif aa == 'C':  # Cysteine
-                    charge -= 1 / (1 + 10**(pka_values[aa] - ph))
-                elif aa == 'Y':  # Tyrosine
-                    charge -= 1 / (1 + 10**(pka_values[aa] - ph))
-            return charge
+            # Count occurrences of charged amino acids
+            aa_count = {aa: self.sequence.count(aa) for aa in 'KRHDEYC'}
+            
+            # N-terminus
+            charge += 1.0 / (1.0 + 10.0**(ph - pka_values['N_term']))
+            
+            # C-terminus
+            charge -= 1.0 / (1.0 + 10.0**(pka_values['C_term'] - ph))
+            
+            # Lysine
+            charge += aa_count['K'] / (1.0 + 10.0**(ph - pka_values['K']))
+            
+            # Arginine
+            charge += aa_count['R'] / (1.0 + 10.0**(ph - pka_values['R']))
+            
+            # Histidine
+            charge += aa_count['H'] / (1.0 + 10.0**(ph - pka_values['H']))
+            
+            # Aspartic Acid
+            charge -= aa_count['D'] / (1.0 + 10.0**(pka_values['D'] - ph))
+            
+            # Glutamic Acid
+            charge -= aa_count['E'] / (1.0 + 10.0**(pka_values['E'] - ph))
+            
+            # Cysteine
+            charge -= aa_count['C'] / (1.0 + 10.0**(pka_values['C'] - ph))
+            
+            # Tyrosine
+            charge -= aa_count['Y'] / (1.0 + 10.0**(pka_values['Y'] - ph))
+            
+            return charge        # Find pI using iterative binary search with bracketing
+        # Start with broader range and tighter convergence
+        ph_min, ph_max = 0.0, 14.0
+        epsilon = 0.0001  # Tighter convergence criterion
+        max_iterations = 200  # Prevent infinite loops
+        iterations = 0
         
-        # Binary search for pI
-        ph_min, ph_max = 0, 14
-        while ph_max - ph_min > 0.01:
-            ph_mid = (ph_min + ph_max) / 2
-            charge = charge_at_ph(ph_mid)
-            if charge > 0:
+        while ph_max - ph_min > epsilon and iterations < max_iterations:
+            ph_mid = (ph_min + ph_max) / 2.0
+            charge = self.charge_at_ph(ph_mid)
+            
+            if abs(charge) < epsilon:  # Found a very close match
+                break
+                
+            if charge > 0:  # Too acidic
                 ph_min = ph_mid
-            else:
+            else:  # Too basic
                 ph_max = ph_mid
+                
+            iterations += 1
         
         return {
             "pI": round((ph_min + ph_max) / 2, 2),
