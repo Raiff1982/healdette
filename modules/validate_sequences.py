@@ -567,16 +567,24 @@ def validate_binder(sequence: str) -> Dict:
         "is_valid": len(warnings) == 0
     }
 
-def validate_binder_set(json_file: str, output_file: str = None):
+def validate_binder_set(json_file: str, config: Dict = None, output_file: str = None):
     """
     Validate a set of binders from a JSON file and optionally save results.
+    
+    Args:
+        json_file: Path to JSON file containing binders to validate
+        config: Optional configuration dictionary with validation parameters
+        output_file: Optional path to save validation results
+    
+    Returns:
+        Dict containing validation results and similar sequence groups
     """
     with open(json_file, 'r') as f:
         data = json.load(f)
     
     results = []
     for binder in data['personalized_binders']:
-        validation = validate_binder(binder['sequence'])
+        validation = validate_binder(binder['sequence'], config)
         results.append({
             **binder,
             "validation": validation
