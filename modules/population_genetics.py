@@ -1,5 +1,18 @@
-"""
-Population genetics module for HLA-based analysis and selection.
+"""Population genetics analysis for HLA frequency and immunogenicity assessment.
+
+This module implements HLA-based population coverage analysis and binding prediction
+for therapeutic antibody candidates. It uses real-world HLA allele frequency data
+from global populations to estimate immunogenicity risks.
+
+Key features:
+- HLA allele frequency data from major world populations
+- MHC class I and II binding prediction
+- Population coverage calculation
+- Immunogenicity risk assessment
+
+Data sources:
+- HLA frequencies: Allele Frequency Net Database
+- Binding predictions: NetMHCpan 4.1
 """
 
 import json
