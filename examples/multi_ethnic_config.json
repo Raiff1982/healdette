@@ -1,0 +1,72 @@
+{
+  "global_params": {
+    "sequence_length": {
+      "min": 40,
+      "max": 70
+    },
+    "structural_params": {
+      "helix_propensity": {
+        "min": 20,
+        "max": 50
+      },
+      "sheet_propensity": {
+        "min": 10,
+        "max": 40
+      }
+    },
+    "homopolymer_threshold": 4
+  },
+  "populations": {
+    "celtic": {
+      "binding_motifs": ["WY", "RF", "KW", "YF"],
+      "biophysical_params": {
+        "aromatic_content": {
+          "min": 15,
+          "max": 27
+        },
+        "hydrophobic_content": {
+          "min": 35,
+          "max": 45
+        },
+        "net_charge": {
+          "min": 5,
+          "max": 15
+        }
+      }
+    },
+    "asian": {
+      "binding_motifs": ["WH", "RY", "KF", "HF"],
+      "biophysical_params": {
+        "aromatic_content": {
+          "min": 12,
+          "max": 25
+        },
+        "hydrophobic_content": {
+          "min": 30,
+          "max": 40
+        },
+        "net_charge": {
+          "min": 3,
+          "max": 12
+        }
+      }
+    },
+    "mediterranean": {
+      "binding_motifs": ["FY", "RW", "KY", "WF"],
+      "biophysical_params": {
+        "aromatic_content": {
+          "min": 18,
+          "max": 30
+        },
+        "hydrophobic_content": {
+          "min": 32,
+          "max": 42
+        },
+        "net_charge": {
+          "min": 4,
+          "max": 14
+        }
+      }
+    }
+  }
+}

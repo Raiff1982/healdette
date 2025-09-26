@@ -1,0 +1,75 @@
+{
+    "target_sequence": "EVQLVESGGGLVQPGGSLRLSCAASGFTFS",
+    "populations": [
+        {
+            "id": "CELTIC",
+            "validation_params": {
+                "binding_motifs": ["WY", "RF", "KW", "YF"],
+                "aromatic_content": {
+                    "min": 0.15,
+                    "max": 0.27
+                },
+                "hydrophobic_content": {
+                    "min": 0.35,
+                    "max": 0.45
+                },
+                "net_charge": {
+                    "min": 5,
+                    "max": 15
+                }
+            }
+        },
+        {
+            "id": "ASIAN",
+            "validation_params": {
+                "binding_motifs": ["WH", "RY", "KF", "HF"],
+                "aromatic_content": {
+                    "min": 0.12,
+                    "max": 0.25
+                },
+                "hydrophobic_content": {
+                    "min": 0.30,
+                    "max": 0.40
+                },
+                "net_charge": {
+                    "min": 3,
+                    "max": 12
+                }
+            }
+        },
+        {
+            "id": "MEDITERRANEAN",
+            "validation_params": {
+                "binding_motifs": ["FY", "RW", "KY", "WF"],
+                "aromatic_content": {
+                    "min": 0.18,
+                    "max": 0.30
+                },
+                "hydrophobic_content": {
+                    "min": 0.32,
+                    "max": 0.42
+                },
+                "net_charge": {
+                    "min": 4,
+                    "max": 14
+                }
+            }
+        }
+    ],
+    "num_sequences": 10,
+    "global_validation_params": {
+        "min_sequence_length": 40,
+        "max_sequence_length": 70,
+        "allow_homopolymers": false,
+        "structure_requirements": {
+            "helix_propensity": {
+                "min": 0.2,
+                "max": 0.5
+            },
+            "sheet_propensity": {
+                "min": 0.1,
+                "max": 0.4
+            }
+        }
+    }
+}

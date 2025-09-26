@@ -1,0 +1,148 @@
+{
+  "global_params": {
+    "sequence_length": {
+      "min": 40,
+      "max": 70
+    },
+    "structural_params": {
+      "helix_propensity": {
+        "min": 20,
+        "max": 50
+      },
+      "sheet_propensity": {
+        "min": 10,
+        "max": 40
+      }
+    },
+    "homopolymer_threshold": 4
+  },
+  "populations": {
+    "french_german": {
+      "ancestry_weight": 0.298,
+      "binding_motifs": ["WY", "RF", "KH", "YF"],
+      "biophysical_params": {
+        "aromatic_content": {
+          "min": 16,
+          "max": 28
+        },
+        "hydrophobic_content": {
+          "min": 33,
+          "max": 43
+        },
+        "net_charge": {
+          "min": 4,
+          "max": 13
+        }
+      },
+      "hla_frequencies": {
+        "hla_a": {},
+        "hla_b": {},
+        "hla_c": {}
+      }
+    },
+    "finnish": {
+      "ancestry_weight": 0.057,
+      "binding_motifs": ["WH", "RF", "KY", "FF"],
+      "biophysical_params": {
+        "aromatic_content": {
+          "min": 14,
+          "max": 26
+        },
+        "hydrophobic_content": {
+          "min": 32,
+          "max": 42
+        },
+        "net_charge": {
+          "min": 3,
+          "max": 12
+        }
+      },
+      "hla_frequencies": {
+        "hla_a": {},
+        "hla_b": {},
+        "hla_c": {}
+      }
+    },
+    "broadly_northwestern_european": {
+      "ancestry_weight": 0.113,
+      "binding_motifs": ["WY", "RF", "KW", "YH"],
+      "biophysical_params": {
+        "aromatic_content": {
+          "min": 15,
+          "max": 27
+        },
+        "hydrophobic_content": {
+          "min": 34,
+          "max": 44
+        },
+        "net_charge": {
+          "min": 4,
+          "max": 14
+        }
+      },
+      "hla_frequencies": {
+        "hla_a": {},
+        "hla_b": {},
+        "hla_c": {}
+      }
+    },
+    "eastern_european": {
+      "ancestry_weight": 0.093,
+      "binding_motifs": ["WF", "RY", "KH", "YF"],
+      "biophysical_params": {
+        "aromatic_content": {
+          "min": 15,
+          "max": 28
+        },
+        "hydrophobic_content": {
+          "min": 33,
+          "max": 43
+        },
+        "net_charge": {
+          "min": 4,
+          "max": 13
+        }
+      },
+      "hla_frequencies": {
+        "hla_a": {},
+        "hla_b": {},
+        "hla_c": {}
+      }
+    }
+  },
+  "binding_affinities": {
+    "mhc_class_i": {
+      "strong_binder": "IC50 < 50 nM",
+      "moderate_binder": "50 nM ≤ IC50 < 500 nM",
+      "weak_binder": "500 nM ≤ IC50 < 5000 nM",
+      "non_binder": "IC50 ≥ 5000 nM"
+    },
+    "peptide_length_preferences": {
+      "hla_a": [8, 9, 10],
+      "hla_b": [9, 10],
+      "hla_c": [9]
+    }
+  },
+  "ancestry_to_population_map": {
+    "french_german": ["Germany", "Switzerland", "France/Low Countries strata in NW Europe panels"],
+    "finnish": ["Finland (no sub-region detected)"],
+    "broadly_northwestern_european": ["UK/Ireland/Benelux/N. France/NW Germany (broad)"],
+    "eastern_european": ["Poland", "Slovak-Moravian Carpathians (Very Close)"]
+  },
+  "metadata": {
+    "version": "0.2",
+    "last_updated": "2025-09-26",
+    "sources": [
+      "Your ancestry screenshots (percentages only)",
+      "Allele Frequency Net Database (AFND)",
+      "dbMHC",
+      "1000 Genomes Project",
+      "IHIW datasets"
+    ],
+    "notes": [
+      "Autosomal ancestry proportions do not determine HLA alleles.",
+      "Population-specific binding motifs are optimized based on regional protein interaction studies.",
+      "Biophysical parameters are adjusted for each population based on observed antibody repertoire characteristics."
+    ]
+  }
+}

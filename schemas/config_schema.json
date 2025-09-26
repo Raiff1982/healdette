@@ -1,0 +1,275 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Healdette Configuration Schema",
+    "description": "Schema for Healdette's multi-ethnic antibody generation configuration",
+    "type": "object",
+    "required": ["global_params", "populations", "binding_affinities", "metadata"],
+    "properties": {
+        "global_params": {
+            "type": "object",
+            "required": ["sequence_length", "structural_params", "homopolymer_threshold"],
+            "properties": {
+                "sequence_length": {
+                    "type": "object",
+                    "required": ["min", "max"],
+                    "properties": {
+                        "min": {
+                            "type": "number",
+                            "minimum": 40,
+                            "description": "Minimum sequence length"
+                        },
+                        "max": {
+                            "type": "number",
+                            "maximum": 70,
+                            "description": "Maximum sequence length"
+                        }
+                    }
+                },
+                "structural_params": {
+                    "type": "object",
+                    "required": ["helix_propensity", "sheet_propensity"],
+                    "properties": {
+                        "helix_propensity": {
+                            "type": "object",
+                            "required": ["min", "max"],
+                            "properties": {
+                                "min": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100
+                                },
+                                "max": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100
+                                }
+                            }
+                        },
+                        "sheet_propensity": {
+                            "type": "object",
+                            "required": ["min", "max"],
+                            "properties": {
+                                "min": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100
+                                },
+                                "max": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 100
+                                }
+                            }
+                        }
+                    }
+                },
+                "homopolymer_threshold": {
+                    "type": "number",
+                    "minimum": 3,
+                    "maximum": 5,
+                    "description": "Maximum allowed length of amino acid repeats"
+                }
+            }
+        },
+        "populations": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-z_]+$": {
+                    "type": "object",
+                    "required": ["ancestry_weight", "binding_motifs", "biophysical_params", "hla_frequencies"],
+                    "properties": {
+                        "ancestry_weight": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Population weight based on ancestry analysis"
+                        },
+                        "binding_motifs": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^[A-Z]{2}$",
+                                "description": "Two-letter amino acid binding motif"
+                            },
+                            "minItems": 1
+                        },
+                        "biophysical_params": {
+                            "type": "object",
+                            "required": ["aromatic_content", "hydrophobic_content", "net_charge"],
+                            "properties": {
+                                "aromatic_content": {
+                                    "type": "object",
+                                    "required": ["min", "max"],
+                                    "properties": {
+                                        "min": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 100
+                                        },
+                                        "max": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 100
+                                        }
+                                    }
+                                },
+                                "hydrophobic_content": {
+                                    "type": "object",
+                                    "required": ["min", "max"],
+                                    "properties": {
+                                        "min": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 100
+                                        },
+                                        "max": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 100
+                                        }
+                                    }
+                                },
+                                "net_charge": {
+                                    "type": "object",
+                                    "required": ["min", "max"],
+                                    "properties": {
+                                        "min": {
+                                            "type": "number",
+                                            "minimum": -20,
+                                            "maximum": 20
+                                        },
+                                        "max": {
+                                            "type": "number",
+                                            "minimum": -20,
+                                            "maximum": 20
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "hla_frequencies": {
+                            "type": "object",
+                            "required": ["hla_a", "hla_b", "hla_c"],
+                            "properties": {
+                                "hla_a": {
+                                    "type": "object",
+                                    "description": "HLA-A allele frequencies"
+                                },
+                                "hla_b": {
+                                    "type": "object",
+                                    "description": "HLA-B allele frequencies"
+                                },
+                                "hla_c": {
+                                    "type": "object",
+                                    "description": "HLA-C allele frequencies"
+                                }
+                            }
+                        },
+                        "notes": {
+                            "type": "string",
+                            "description": "Optional notes about the population"
+                        }
+                    }
+                }
+            },
+            "minProperties": 1
+        },
+        "binding_affinities": {
+            "type": "object",
+            "required": ["mhc_class_i", "peptide_length_preferences"],
+            "properties": {
+                "mhc_class_i": {
+                    "type": "object",
+                    "required": ["strong_binder", "moderate_binder", "weak_binder", "non_binder"],
+                    "properties": {
+                        "strong_binder": {
+                            "type": "string",
+                            "description": "IC50 threshold for strong binders"
+                        },
+                        "moderate_binder": {
+                            "type": "string",
+                            "description": "IC50 range for moderate binders"
+                        },
+                        "weak_binder": {
+                            "type": "string",
+                            "description": "IC50 range for weak binders"
+                        },
+                        "non_binder": {
+                            "type": "string",
+                            "description": "IC50 threshold for non-binders"
+                        }
+                    }
+                },
+                "peptide_length_preferences": {
+                    "type": "object",
+                    "required": ["hla_a", "hla_b", "hla_c"],
+                    "properties": {
+                        "hla_a": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "description": "Preferred peptide lengths for HLA-A"
+                        },
+                        "hla_b": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "description": "Preferred peptide lengths for HLA-B"
+                        },
+                        "hla_c": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "description": "Preferred peptide lengths for HLA-C"
+                        }
+                    }
+                }
+            }
+        },
+        "ancestry_to_population_map": {
+            "type": "object",
+            "patternProperties": {
+                "^[a-z_]+$": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of population/region identifiers for this ancestry"
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "required": ["version", "last_updated", "sources"],
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+                    "description": "Configuration schema version"
+                },
+                "last_updated": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Last update date in YYYY-MM-DD format"
+                },
+                "sources": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Data sources used in configuration"
+                },
+                "notes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Additional notes about the configuration"
+                }
+            }
+        }
+    }
+}
