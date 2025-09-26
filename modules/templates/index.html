@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ethnicity Configuration Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .ethnicity-weight {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .ethnicity-weight input[type="number"] {
+            width: 80px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ethnicity Configuration Manager</h1>
+
+    <div class="section">
+        <h2>Upload New Configuration</h2>
+        <form id="uploadForm">
+            <div>
+                <label for="ethnicity">Ethnicity Name:</label>
+                <input type="text" id="ethnicity" name="name" required>
+            </div>
+            <div>
+                <label for="configFile">Configuration File:</label>
+                <input type="file" id="configFile" name="file" accept=".json" required>
+            </div>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>Generate Mixed Configuration</h2>
+        <form id="generateForm">
+            <div id="ethnicityWeights">
+                {% for ethnicity in ethnicities %}
+                <div class="ethnicity-weight">
+                    <label>
+                        <input type="checkbox" name="ethnicity" value="{{ ethnicity }}">
+                        {{ ethnicity }}
+                    </label>
+                    <input type="number" step="0.1" min="0" max="1" value="0.5" disabled>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+
+    <script>
+        document.querySelectorAll('input[name="ethnicity"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const weightInput = this.parentElement.nextElementSibling;
+                weightInput.disabled = !this.checked;
+            });
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                alert(result.message || result.error);
+                if (!result.error) {
+                    location.reload();
+                }
+            } catch (error) {
+                alert('Error uploading configuration');
+            }
+        });
+
+        document.getElementById('generateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const weights = {};
+            
+            document.querySelectorAll('.ethnicity-weight').forEach(div => {
+                const checkbox = div.querySelector('input[type="checkbox"]');
+                const weightInput = div.querySelector('input[type="number"]');
+                if (checkbox.checked) {
+                    weights[checkbox.value] = parseFloat(weightInput.value);
+                }
+            });
+
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ weights })
+                });
+                const result = await response.json();
+                alert(result.message || result.error);
+            } catch (error) {
+                alert('Error generating configuration');
+            }
+        });
+    </script>
+</body>
+</html>

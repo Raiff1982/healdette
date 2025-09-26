@@ -1,0 +1,24 @@
+{
+  "population_weights": {
+    "french": 1.0
+  },
+  "binding_parameters": {
+    "hla_frequencies": {
+      "A*02:01": 0.18,
+      "B*44:02": 0.11,
+      "C*04:01": 0.13
+    },
+    "binding_motifs": ["YF", "WF", "HF"],
+    "charge_preference": 0.6,
+    "hydrophobic_threshold": 0.3
+  },
+  "validation_thresholds": {
+    "min_charge": -3,
+    "max_charge": 12,
+    "min_hydrophobic": 0.15,
+    "max_hydrophobic": 0.35,
+    "max_aromatic": 0.15,
+    "min_helix": 0.25,
+    "min_sheet": 0.15
+  }
+}

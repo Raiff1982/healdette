@@ -1,0 +1,127 @@
+{
+    "target_sequence": "EVQLVESGGGLVQPGGSLRLSCAASGFTFDDYAMSWVRQAPGKGLEWVSAITWNSGHIDYADSVEGRFTISRDNAKNSLYLQMNSLRAEDTAVYYCVKGRGFPYWGQGTLVTVSS",
+    "cleaned_sequence": "EVQLVESGGGLVQPGGSLRLSCAASGFTFDDYAMSWVRQAPGKGLEWVSAITWNSGHIDYADSVEGRFTISRDNAKNSLYLQMNSLRAEDTAVYYCVKGRGFPYWGQGTLVTVSS",
+    "fusion_points": [
+        {"position": 30, "type": "CDR1"},
+        {"position": 52, "type": "CDR2"},
+        {"position": 107, "type": "CDR3"}
+    ],
+    "global_params": {
+        "sequence_length": {
+            "min": 40,
+            "max": 70
+        },
+        "structural_params": {
+            "helix_propensity": {
+                "min": 20,
+                "max": 50
+            },
+            "sheet_propensity": {
+                "min": 10,
+                "max": 40
+            }
+        },
+        "homopolymer_threshold": 4
+    },
+    "populations": {
+        "celtic": {
+            "ancestry_weight": 0.65,
+            "notes": "Primary Celtic ancestry component",
+            "binding_motifs": ["WY", "RF", "KW", "YF"],
+            "biophysical_params": {
+                "aromatic_content": {
+                    "min": 15,
+                    "max": 27
+                },
+                "hydrophobic_content": {
+                    "min": 35,
+                    "max": 45
+                },
+                "net_charge": {
+                    "min": 5,
+                    "max": 15
+                }
+            },
+            "hla_frequencies": {
+                "hla_a": {
+                    "A*01:01": 0.1573,
+                    "A*02:01": 0.2234,
+                    "A*03:01": 0.1328
+                },
+                "hla_b": {
+                    "B*08:01": 0.1244,
+                    "B*44:02": 0.1055,
+                    "B*07:02": 0.1378
+                },
+                "hla_c": {
+                    "C*07:01": 0.1834,
+                    "C*03:04": 0.1223,
+                    "C*04:01": 0.1156
+                }
+            }
+        },
+        "french": {
+            "ancestry_weight": 0.35,
+            "notes": "French ancestry component",
+            "binding_motifs": ["WY", "RF", "KH", "YF"],
+            "biophysical_params": {
+                "aromatic_content": {
+                    "min": 16,
+                    "max": 28
+                },
+                "hydrophobic_content": {
+                    "min": 33,
+                    "max": 43
+                },
+                "net_charge": {
+                    "min": 4,
+                    "max": 13
+                }
+            },
+            "hla_frequencies": {
+                "hla_a": {
+                    "A*01:01": 0.1122,
+                    "A*02:01": 0.2856,
+                    "A*03:01": 0.1567
+                },
+                "hla_b": {
+                    "B*08:01": 0.0934,
+                    "B*44:02": 0.1245,
+                    "B*07:02": 0.1167
+                },
+                "hla_c": {
+                    "C*07:01": 0.1645,
+                    "C*03:04": 0.1434,
+                    "C*04:01": 0.1267
+                }
+            }
+        }
+    },
+    "binding_affinities": {
+        "mhc_class_i": {
+            "strong_binder": "IC50 < 50 nM",
+            "moderate_binder": "50 nM ≤ IC50 < 500 nM",
+            "weak_binder": "500 nM ≤ IC50 < 5000 nM",
+            "non_binder": "IC50 ≥ 5000 nM"
+        },
+        "peptide_length_preferences": {
+            "hla_a": [8, 9, 10],
+            "hla_b": [9, 10],
+            "hla_c": [9]
+        }
+    },
+    "metadata": {
+        "version": "2.0.0",
+        "last_updated": "2025-09-26",
+        "sources": [
+            "Celtic HLA frequency data from Irish Bone Marrow Registry",
+            "French HLA frequency data from France-Transplant registry",
+            "Population-specific binding motifs from experimental studies"
+        ],
+        "notes": [
+            "Configuration for Celtic-French mixed ancestry",
+            "Weighted parameters reflect 65% Celtic and 35% French ancestry",
+            "Template sequence from validated therapeutic antibody"
+        ]
+    }
+}
