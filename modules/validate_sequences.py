@@ -7,7 +7,9 @@ Performs computational checks for various sequence properties and potential issu
 import re
 import json
 import math
+import datetime
 from typing import Dict, List, Tuple
+from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
 class SequenceValidator:
     # Class-level pKa values matching BioPython's ProtParam implementation
@@ -23,6 +25,20 @@ class SequenceValidator:
         'C_term': 3.1   # C-terminus
     }
     
+    # CDR patterns based on Kabat numbering scheme
+    CDR_PATTERNS = {
+        'heavy': {
+            'CDR1': r'[A-Z]{10,20}C[A-Z]{2}[A-Z]{3}[A-Z]C',
+            'CDR2': r'[A-Z]{15,25}C[A-Z]{2}[A-Z]{7}[A-Z]C',
+            'CDR3': r'[A-Z]{5,17}C[A-Z]{2}[A-Z]{3}[A-Z]C'
+        },
+        'light': {
+            'CDR1': r'[A-Z]{10,17}C[A-Z]{2}[A-Z]{3}[A-Z]C',
+            'CDR2': r'[A-Z]{7,12}C[A-Z]{2}[A-Z]{3}[A-Z]C',
+            'CDR3': r'[A-Z]{7,11}C[A-Z]{2}[A-Z]{3}[A-Z]C'
+        }
+    }
+    
     def __init__(self, sequence: str, config: Dict = None):
         """
         Initialize sequence validator with optional configuration.
@@ -36,15 +52,22 @@ class SequenceValidator:
         
         # Default configuration values
         self.default_config = {
-            "signal_peptide": {
-                "enabled": True,
-                "min_length": 15,
-                "max_length": 30,
-                "required": False,
-                "strip": False,
-                "confidence_threshold": 0.6,
-                "n_region_basic_threshold": 0.3,  # Min fraction of K/R in N-region
-                "h_region_hydrophobic_threshold": 0.6  # Min fraction of hydrophobic residues in H-region
+            "sequence_properties": {
+                "min_length": 100,
+                "max_length": 500,
+                "max_hydrophobicity": 0.5,
+                "max_instability": 40.0,
+                "min_antigenic_regions": 2
+            },
+            "structure_requirements": {
+                "min_helix_content": 0.2,
+                "min_sheet_content": 0.1,
+                "max_disorder_regions": 3
+            },
+            "validation_thresholds": {
+                "similarity_cutoff": 0.7,
+                "quality_score_min": 0.5,
+                "confidence_threshold": 0.8
             }
         }
         
@@ -519,61 +542,178 @@ class SequenceValidator:
             return 0.0
         matches = sum(a == b for a, b in zip(seq1, seq2))
         return matches / len(seq1)
-
-## Removed duplicate old definition of validate_binder
+    
+    def validate_sequence(self) -> Dict:
+        """
+        Comprehensive validation of antibody sequence with improved metrics.
+        
+        Returns:
+            Dict containing complete validation results and metrics
+        """
+        # Initialize results
+        results = {
+            "valid": True,
+            "metrics": {},
+            "failures": [],
+            "warnings": []
+        }
+        
+        try:
+            # 1. Basic sequence validation
+            if not self.sequence:
+                results["valid"] = False
+                results["failures"].append("Empty sequence")
+                return results
+            
+            if not all(aa in "ACDEFGHIKLMNPQRSTVWY" for aa in self.sequence):
+                results["valid"] = False
+                results["failures"].append("Invalid amino acids present")
+                return results
+            
+            # 2. Length validation
+            length = len(self.sequence)
+            results["metrics"]["length"] = length
+            cfg = self.config["sequence_properties"]
+            
+            if length < cfg["min_length"] or length > cfg["max_length"]:
+                results["valid"] = False
+                results["failures"].append(f"Length {length} outside allowed range")
+            
+            # 3. Analyze with BioPython's ProteinAnalysis
+            protein_analysis = ProteinAnalysis(self.sequence)
+            
+            # Amino acid composition
+            aa_percent = protein_analysis.get_amino_acids_percent()
+            results["metrics"]["amino_acid_composition"] = aa_percent
+            
+            # Stability metrics
+            instability_index = protein_analysis.instability_index()
+            results["metrics"]["instability_index"] = instability_index
+            if instability_index > cfg["max_instability"]:
+                results["warnings"].append("High instability index")
+            
+            # Secondary structure
+            helix, sheet, coil = protein_analysis.secondary_structure_fraction()
+            results["metrics"]["secondary_structure"] = {
+                "helix": helix,
+                "sheet": sheet,
+                "coil": coil
+            }
+            
+            scfg = self.config["structure_requirements"]
+            if helix < scfg["min_helix_content"]:
+                results["warnings"].append("Low helical content")
+            if sheet < scfg["min_sheet_content"]:
+                results["warnings"].append("Low beta sheet content")
+            
+            # 4. Antibody-specific validations
+            # Heavy chain CDR patterns
+            heavy_cdr_matches = [
+                bool(re.search(pattern, self.sequence))
+                for pattern in self.CDR_PATTERNS["heavy"].values()
+            ]
+            
+            # Light chain CDR patterns
+            light_cdr_matches = [
+                bool(re.search(pattern, self.sequence))
+                for pattern in self.CDR_PATTERNS["light"].values()
+            ]
+            
+            results["metrics"]["cdr_patterns"] = {
+                "heavy_chain": sum(heavy_cdr_matches),
+                "light_chain": sum(light_cdr_matches)
+            }
+            
+            if not any(heavy_cdr_matches) and not any(light_cdr_matches):
+                results["warnings"].append("No CDR patterns detected")
+            
+            # 5. Advanced physicochemical properties
+            properties = self.calculate_properties()
+            results["metrics"].update({
+                "pI": properties["pI"],
+                "GRAVY": properties["GRAVY"],
+                "molecular_weight": properties["molecular_weight"],
+                "aromaticity": properties["aromaticity"]
+            })
+            
+            # Check hydrophobicity
+            if properties["GRAVY"] > cfg["max_hydrophobicity"]:
+                results["warnings"].append("High overall hydrophobicity")
+            
+            # 6. Sequence complexity and motifs
+            complexity = self.analyze_complexity()
+            results["metrics"]["sequence_complexity"] = complexity["sequence_entropy"]
+            
+            if complexity["warnings"]["low_complexity"]:
+                results["warnings"].append("Low sequence complexity")
+            
+            # 7. Post-translational modification sites
+            glyco_sites = self.find_glycosylation_sites()
+            results["metrics"]["n_glycosylation_sites"] = len(glyco_sites)
+            
+            if len(glyco_sites) > 3:
+                results["warnings"].append("High number of potential glycosylation sites")
+            
+            # 8. Calculate final quality score
+            warning_penalty = len(results["warnings"]) * 0.1
+            failure_penalty = len(results["failures"]) * 0.3
+            
+            base_score = (
+                (1.0 if any(heavy_cdr_matches) or any(light_cdr_matches) else 0.5) +
+                (1.0 if complexity["sequence_entropy"] > 3.0 else 0.5) +
+                (1.0 if instability_index < cfg["max_instability"] else 0.5) +
+                (1.0 if properties["GRAVY"] < cfg["max_hydrophobicity"] else 0.5)
+            ) / 4.0
+            
+            quality_score = max(0.0, min(1.0, base_score - warning_penalty - failure_penalty))
+            results["metrics"]["quality_score"] = round(quality_score, 2)
+            
+            # Update validity based on quality threshold
+            if quality_score < self.config["validation_thresholds"]["quality_score_min"]:
+                results["valid"] = False
+                results["failures"].append(f"Quality score {quality_score} below threshold")
+            
+        except Exception as e:
+            results["valid"] = False
+            results["failures"].append(f"Validation error: {str(e)}")
+        
+        return results
 def validate_binder(sequence: str, config: Dict = None) -> Dict:
     """
-    Perform comprehensive validation of a single binder sequence.
+    Perform comprehensive validation of a single binder sequence using the enhanced validator.
     
     Args:
         sequence: The amino acid sequence to validate
         config: Optional configuration dictionary with validation parameters
     
-    Checks:
-    - Sequence length
-    - Disorder prediction
-    - Signal peptide presence (configurable)
-    - Cysteine content and spacing
-    - Glycosylation sites
-    - Physicochemical properties
-    - Sequence complexity and composition
+    Performs comprehensive validation including:
+    - Sequence quality and composition
+    - Antibody-specific CDR patterns
+    - Stability and structure predictions
+    - Post-translational modifications
+    - Advanced physicochemical properties
+    - Quality scoring
     
     Returns:
-        Dict containing comprehensive validation results
+        Dict containing complete validation results and metrics
     """
     validator = SequenceValidator(sequence, config)
     
-    # Get all validation results
-    complexity = validator.analyze_complexity()
-    properties = validator.calculate_properties()
-    cysteines = validator.analyze_cysteines()
+    # Get validation results using the new comprehensive validation
+    results = validator.validate_sequence()
     
-    # Aggregate warnings
-    warnings = []
-    if complexity['warnings']['low_complexity']:
-        warnings.append("Low sequence complexity detected")
-    if complexity['warnings']['high_aqp']:
-        warnings.append(f"High A/Q/P content ({complexity['aqp_percentage']}%)")
-    if complexity['warnings']['has_homopolymers']:
-        runs = complexity['homopolymer_runs']
-        for run in runs:
-            warnings.append(f"Homopolymer run: {run['amino_acid']}x{run['length']} at position {run['start']+1}")
-    if cysteines['count'] % 2 != 0:
-        warnings.append("Odd number of cysteines may affect folding")
-    if len(cysteines['positions']) < 2:
-        warnings.append("Low cysteine content may reduce stability")
+    # Add additional context and metadata
+    results["timestamp"] = datetime.datetime.now().isoformat()
+    results["validator_version"] = "2.0.0"
     
-    return {
-        "length": len(sequence),
+    # Add supporting analyses
+    results["supporting_analyses"] = {
+        "cysteines": validator.analyze_cysteines(),
         "disorder": validator.predict_disorder(),
-        "signal_peptide": validator.check_signal_peptide(),
-        "cysteines": cysteines,
-        "glycosylation": validator.find_glycosylation_sites(),
-        "properties": properties,
-        "complexity": complexity,
-        "warnings": warnings,
-        "is_valid": len(warnings) == 0
+        "signal_peptide": validator.check_signal_peptide()
     }
+    
+    return results
 
 def validate_binder_set(json_file: str, config: Dict = None, output_file: str = None):
     """

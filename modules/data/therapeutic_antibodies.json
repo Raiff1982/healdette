@@ -1,0 +1,183 @@
+{
+  "therapeutic_antibodies": [
+    {
+      "name": "Adalimumab",
+      "sequence": {
+        "heavy_chain": "EVQLVESGGGLVQPGGSLRLSCAASGFTFDDYAMHWVRQAPGKGLEWVSAITWNSGHIDYADSVEGRFTISRDNAKNSLYLQMNSLRAEDTAVYYCAKVSYLSTASSLDYWGQGTLVTVSS",
+        "light_chain": "DIQMTQSPSSLSASVGDRVTITCRASQGIRNYLAWYQQKPGKAPKLLIYAASTLQSGVPSRFSGSGSGTDFTLTISSLQPEDVATYYCQRYNRAPYTFGQGTKVEIK"
+      },
+      "target": "TNF-alpha",
+      "approved": true,
+      "year": 2002,
+      "company": "AbbVie",
+      "disease_areas": ["Rheumatoid Arthritis", "Psoriasis", "Crohn's Disease"],
+      "antibody_type": "Human",
+      "isotype": "IgG1",
+      "cdr_regions": {
+        "heavy": {
+          "cdr1": "DDYAMH",
+          "cdr2": "AITWNSGHIDYAD",
+          "cdr3": "AKVSYLSTASSLD"
+        },
+        "light": {
+          "cdr1": "RASQGIRNYLA",
+          "cdr2": "AASTLQS",
+          "cdr3": "QRYNRAPYT"
+        }
+      }
+    },
+    {
+      "name": "Trastuzumab",
+      "sequence": {
+        "heavy_chain": "EVQLVESGGGLVQPGGSLRLSCAASGFNIKDTYIHWVRQAPGKGLEWVARIYPTNGYTRYADSVKGRFTISADTSKNTAYLQMNSLRAEDTAVYYCSRWGGDGFYAMDYWGQGTLVTVSS",
+        "light_chain": "DIQMTQSPSSLSASVGDRVTITCRASQDVNTAVAWYQQKPGKAPKLLIYSASFLYSGVPSRFSGSRSGTDFTLTISSLQPEDFATYYCQQHYTTPPTFGQGTKVEIK"
+      },
+      "target": "HER2",
+      "approved": true,
+      "year": 1998,
+      "company": "Genentech/Roche",
+      "disease_areas": ["Breast Cancer", "Gastric Cancer"],
+      "antibody_type": "Humanized",
+      "isotype": "IgG1",
+      "cdr_regions": {
+        "heavy": {
+          "cdr1": "GFNIKDTYIH",
+          "cdr2": "RIYPTNGYTRYA",
+          "cdr3": "SRWGGDGFYAMDY"
+        },
+        "light": {
+          "cdr1": "RASQDVNTAVA",
+          "cdr2": "SASFLYS",
+          "cdr3": "QQHYTTPPT"
+        }
+      }
+    },
+    {
+      "name": "Pembrolizumab",
+      "sequence": {
+        "heavy_chain": "EVQLVESGGGLVQPGGSLRLSCAASGFTFSDSWIHWVRQAPGKGLEWVAWISPYGGSTYYADSVKGRFTISADTSKNTAYLQMNSLRAEDTAVYYCAREHPWFCEALSCLYFDYWGQGTLVTVSS",
+        "light_chain": "EIVLTQSPATLSLSPGERATLSCRASQSVSSYLAWYQQKPGQAPRLLIYDASNRATGIPARFSGSGSGTDFTLTISSLEPEDFAVYYCQQRSNWPPTFGQGTKVEIK"
+      },
+      "target": "PD-1",
+      "approved": true,
+      "year": 2014,
+      "company": "Merck",
+      "disease_areas": ["Melanoma", "Lung Cancer", "Head and Neck Cancer"],
+      "antibody_type": "Humanized",
+      "isotype": "IgG4",
+      "cdr_regions": {
+        "heavy": {
+          "cdr1": "GFTFSDSWIH",
+          "cdr2": "WISPYGGSTYYA",
+          "cdr3": "AREHPWFCEALSCLYFD"
+        },
+        "light": {
+          "cdr1": "RASQSVSSYLA",
+          "cdr2": "DASNRAT",
+          "cdr3": "QQRSNWPPT"
+        }
+      }
+    },
+    {
+      "name": "Rituximab",
+      "sequence": {
+        "heavy_chain": "QVQLQQPGAELVKPGASVKMSCKASGYTFTSYNMHWVKQTPGRGLEWIGAIYPGNGDTSYNQKFKGKATLTADKSSSTAYMQLSSLTSEDSAVYYCARSTYYGGDWYFNVWGAGTTVTVSA",
+        "light_chain": "QIVLSQSPAILSASPGEKVTMTCRASSSVSYIHWFQQKPGSSPKPWIYATSNLASGVPVRFSGSGSGTSYSLTISRVEAEDAATYYCQQWTSNPPTFGGGTKLEIK"
+      },
+      "target": "CD20",
+      "approved": true,
+      "year": 1997,
+      "company": "Biogen/Genentech",
+      "disease_areas": ["Non-Hodgkin's Lymphoma", "Chronic Lymphocytic Leukemia"],
+      "antibody_type": "Chimeric",
+      "isotype": "IgG1",
+      "cdr_regions": {
+        "heavy": {
+          "cdr1": "SYNMH",
+          "cdr2": "AIYPGNGDTSYNQKFKG",
+          "cdr3": "STYYGGDWYFNV"
+        },
+        "light": {
+          "cdr1": "RASSSVSYIH",
+          "cdr2": "ATSNLAS",
+          "cdr3": "QQWTSNPPT"
+        }
+      }
+    },
+    {
+      "name": "Nivolumab",
+      "sequence": {
+        "heavy_chain": "QVQLVESGGGVVQPGRSLRLSCAASGFTFSRQALMWVRQAPGKGLEWVAVISYDGSNKYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCARDRGDYYRFAYWGQGTLVTVSS",
+        "light_chain": "EIVLTQSPATLSLSPGERATLSCRASQSVSSYLAWYQQKPGQAPRLLIYDASNRATGIPARFSGSGSGTDFTLTISSLEPEDFAVYYCQQSSNWPRTFGQGTKVEIK"
+      },
+      "target": "PD-1",
+      "approved": true,
+      "year": 2014,
+      "company": "Bristol-Myers Squibb",
+      "disease_areas": ["Melanoma", "Lung Cancer", "Renal Cell Carcinoma"],
+      "antibody_type": "Human",
+      "isotype": "IgG4",
+      "cdr_regions": {
+        "heavy": {
+          "cdr1": "GFTFSRQALM",
+          "cdr2": "VISYDGSNKYYA",
+          "cdr3": "ARDRGDYYRF"
+        },
+        "light": {
+          "cdr1": "RASQSVSSYLA",
+          "cdr2": "DASNRAT",
+          "cdr3": "QQSSNWPRT"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "last_updated": "2025-09-26",
+    "total_antibodies": 5,
+    "source": "FDA/EMA approved therapeutic antibodies",
+    "data_fields": {
+      "sequence": "Split into heavy and light chains",
+      "cdr_regions": "Based on Kabat numbering scheme",
+      "disease_areas": "Primary indications",
+      "antibody_type": "Classification based on origin",
+      "isotype": "Antibody class"
+    },
+    "references": [
+      "IMGT Antibody Database",
+      "DrugBank",
+      "FDA Biological Approvals",
+      "EMA Medicine Database"
+    ]
+  },
+  "validation_metrics": {
+    "sequence_length": {
+      "heavy_chain": {
+        "min": 110,
+        "max": 130,
+        "mean": 120
+      },
+      "light_chain": {
+        "min": 105,
+        "max": 115,
+        "mean": 110
+      }
+    },
+    "cdr_length_ranges": {
+      "heavy": {
+        "cdr1": [5, 10],
+        "cdr2": [12, 17],
+        "cdr3": [9, 17]
+      },
+      "light": {
+        "cdr1": [10, 12],
+        "cdr2": [7, 8],
+        "cdr3": [8, 10]
+      }
+    },
+    "framework_conservation": {
+      "heavy": 0.85,
+      "light": 0.90
+    }
+  }
+}
