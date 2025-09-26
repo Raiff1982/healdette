@@ -54,6 +54,32 @@ def generate_binders(fusion_context: dict, num_candidates: int = 10) -> dict:
         validation_result = validator.analyze_sequence(sequence)
         binder['detailed_validation'] = validation_result
     
+    # Personalize binders with HLA compatibility
+    patient_data = {
+        "immune_profile": [
+            "A*01:01", "A*03:01",  # Celtic markers
+            "B*07:02", "B*08:01",  # British Isles common
+            "C*07:01", "C*04:01"   # Celtic-specific
+        ],
+        "metabolic_rate": 1.0,  # Standard for Northern European populations
+        "prior_exposure": ["SARS-CoV-2", "Influenza-A", "EBV", "CMV"],
+        "ancestry_profile": ["Celtic_British"],
+        "population_weights": {
+            "irish": 0.42,
+            "scottish": 0.28,
+            "english": 0.18,
+            "germanic": 0.08,
+            "welsh": 0.04
+        }
+    }
+    
+    if results['generated_binders']:
+        from .personalize_binders import personalize_binders
+        results['generated_binders'] = personalize_binders(
+            results['generated_binders'],
+            patient_data
+        )
+    
     return results
 
 def main():

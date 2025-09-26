@@ -66,9 +66,10 @@ class AntibodyGenerator:
         try:
             validation_file = Path(__file__).parent / 'data' / 'therapeutic_antibodies.json'
             with open(validation_file) as f:
-                return json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            print("Warning: Validation dataset not found or invalid. Using basic validation.")
+                data = json.load(f)
+                return data.get('therapeutic_antibodies', [])
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(f"Warning: Error loading validation dataset: {str(e)}. Using basic validation.")
             return []
 
     def _generate_cdrs(self, context: str, template_seq: str, num_variants: int = 5) -> List[Tuple[str, Dict]]:
@@ -76,30 +77,40 @@ class AntibodyGenerator:
         prompt = f"{template_seq} {context} <CDR>"
         inputs = self.tokenizer(prompt, return_tensors="pt", padding=True)
         
+        print(f"Generating CDRs with prompt: {prompt}")
+        
         # Generate sequences with improved parameters
         outputs = self.model.generate(
             inputs["input_ids"],
             attention_mask=inputs["attention_mask"],
             do_sample=True,
-            top_k=40,
-            top_p=0.9,
-            temperature=0.7,
-            max_new_tokens=25,
-            num_return_sequences=num_variants * 3,
+            top_k=50,
+            top_p=0.95,
+            temperature=0.8,
+            max_new_tokens=30,
+            min_new_tokens=15,
+            num_return_sequences=num_variants * 5,
             pad_token_id=self.tokenizer.pad_token_id,
-            no_repeat_ngram_size=2,
-            repetition_penalty=1.3
+            no_repeat_ngram_size=3,
+            repetition_penalty=1.5,
+            bad_words_ids=[[self.tokenizer.eos_token_id]]
         )
         
         # Process and validate sequences
         valid_sequences = []
-        for output in outputs:
+        for i, output in enumerate(outputs):
             sequence = self.tokenizer.decode(output, skip_special_tokens=True)
             sequence = sequence.split("<CDR>")[-1].strip()
             sequence = ''.join(aa for aa in sequence if aa in "ACDEFGHIKLMNPQRSTVWY")
             
+            print(f"Generated sequence {i+1}: {sequence}")
+            
             # Analyze sequence quality
             analysis = self.validator.analyze_sequence(sequence)
+            print(f"Validation results for sequence {i+1}:")
+            print(f"  Passes validation: {analysis['passes_validation']}")
+            print(f"  Analysis: {analysis}")
+            
             if analysis['passes_validation']:
                 valid_sequences.append((sequence, analysis))
                 if len(valid_sequences) >= num_variants:
@@ -166,7 +177,7 @@ class AntibodyGenerator:
                 sequence = self._assemble_antibody(h_seqs, l_seqs, vh, vl)
                 validation_score = self._validate_sequence(sequence)
                 
-                if validation_score >= 0.7:
+                if validation_score >= 0.5:
                     binder = {
                         "sequence": sequence,
                         "heavy_cdrs": h_seqs,

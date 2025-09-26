@@ -1,0 +1,56 @@
+{
+    "cleaned_sequence": "MENLRPGVWEILKRWLKEMN",
+    "fusion_points": [
+        {"position": 10, "type": "cleavage_site"},
+        {"position": 15, "type": "fusion_junction"}
+    ],
+    "target_motifs": [
+        "MENLRPGVWEILKRWL",
+        "PGVWEILKRWLKEMN"
+    ],
+    "target_parameters": {
+        "binding_threshold": 0.5,
+        "stability_threshold": 0.5,
+        "specificity_threshold": 0.6,
+        "allow_suboptimal": true,
+        "min_celtic_motifs": 1,
+        "charge_tolerance": 0.4,
+        "aromatic_range": [0.1, 0.25],
+        "hydrophobic_range": [0.3, 0.5]
+    },
+    "patient_config": {
+        "ancestry_profile": ["celtic_british", "irish_dominant"],
+        "immune_profile": [
+            "A*01:01",
+            "A*03:01",
+            "B*08:01",
+            "B*07:02",
+            "C*07:01",
+            "C*04:01"
+        ],
+        "metabolic_rate": 1.02,
+        "prior_exposure": [
+            "SARS-CoV-2",
+            "Influenza-A",
+            "EBV",
+            "CMV"
+        ],
+        "population_weights": {
+            "celtic_british": 0.6,
+            "irish_dominant": 0.4
+        },
+        "biokinetic_factors": {
+            "drug_metabolism_phenotype": "enhanced",
+            "alcohol_metabolism": "variable",
+            "lactose_tolerance": true,
+            "vitamin_d_synthesis": "reduced"
+        }
+    },
+    "generation_parameters": {
+        "num_candidates": 5,
+        "min_length": 30,
+        "max_length": 70,
+        "optimization_steps": 100,
+        "celtic_motif_weight": 0.3
+    }
+}

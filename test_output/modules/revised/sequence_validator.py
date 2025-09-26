@@ -10,12 +10,17 @@ class SequenceValidator:
     def __init__(self, config: Dict = None):
         """Initialize validator with configurable parameters."""
         default_config = {
-            'max_aa_frequency': 0.35,  # Maximum frequency of any single amino acid
-            'min_unique_aa': 5,  # Minimum number of unique amino acids
-            'max_homopolymer': 4,  # Maximum consecutive repeat of same amino acid
-            'min_hydrophobic': 0.15,  # Minimum hydrophobic content
-            'max_hydrophobic': 0.65,  # Maximum hydrophobic content
-            'charged_ratio_range': (0.1, 0.4),  # Min/max ratio of charged residues
+            'max_aa_frequency': 0.4,  # Maximum frequency of any single amino acid
+            'min_unique_aa': 4,  # Minimum number of unique amino acids
+            'max_homopolymer': 5,  # Maximum consecutive repeat of same amino acid
+            'min_hydrophobic': 0.1,  # Minimum hydrophobic content
+            'max_hydrophobic': 0.7,  # Maximum hydrophobic content
+            'charged_ratio_range': (0.05, 0.5),  # Min/max ratio of charged residues
+            'min_length': 8,  # Minimum length for HLA binding
+            'max_length': 100,  # Maximum length for stability
+            'min_aromatic': 0.05,  # Minimum aromatic content for HLA binding
+            'max_aromatic': 0.3,  # Maximum aromatic content
+            'celtic_motifs': ['YF', 'WY', 'RF', 'KW']  # Common Celtic HLA-binding motifs
         }
         self.config = config or default_config
         self.hydrophobic = set('AILMFWYV')
@@ -23,7 +28,10 @@ class SequenceValidator:
         
     def analyze_sequence(self, sequence: str) -> Dict:
         """Analyze sequence properties and validate against criteria."""
+        print(f"\nAnalyzing sequence: {sequence}")
+        
         if not sequence or not all(aa in "ACDEFGHIKLMNPQRSTVWY" for aa in sequence):
+            print("  Invalid sequence - contains non-standard amino acids")
             return {
                 'passes_validation': False,
                 'error': 'Invalid sequence - contains non-standard amino acids'
@@ -35,8 +43,20 @@ class SequenceValidator:
             'homopolymer_runs': self._find_homopolymer_runs(sequence),
             'hydrophobic_content': self._calculate_hydrophobic_content(sequence),
             'charge_properties': self._analyze_charge_properties(sequence),
-            'structure_metrics': self._analyze_structure(sequence)
+            'structure_metrics': self._analyze_structure(sequence),
+            'aromatic_content': self._calculate_aromatic_content(sequence),
+            'celtic_binding_motifs': self._find_celtic_motifs(sequence)
         }
+        
+        print("  Analysis results:")
+        print(f"    Length: {analysis['length']}")
+        print(f"    AA composition: {analysis['aa_composition']}")
+        print(f"    Homopolymer runs: {analysis['homopolymer_runs']}")
+        print(f"    Hydrophobic content: {analysis['hydrophobic_content']:.2f}")
+        print(f"    Aromatic content: {analysis['aromatic_content']:.2f}")
+        print(f"    Celtic binding motifs: {analysis['celtic_binding_motifs']}")
+        print(f"    Charge properties: {analysis['charge_properties']}")
+        print(f"    Structure metrics: {analysis['structure_metrics']}")
         
         # Validate against criteria
         validation = {
@@ -88,3 +108,16 @@ class SequenceValidator:
             'helix_propensity': sum(aa in helix_prone for aa in sequence) / len(sequence),
             'sheet_propensity': sum(aa in sheet_prone for aa in sequence) / len(sequence)
         }
+        
+    def _calculate_aromatic_content(self, sequence: str) -> float:
+        """Calculate fraction of aromatic residues."""
+        aromatics = set('FWY')
+        return sum(aa in aromatics for aa in sequence) / len(sequence)
+        
+    def _find_celtic_motifs(self, sequence: str) -> List[str]:
+        """Find Celtic HLA-binding motifs in sequence."""
+        found_motifs = []
+        for motif in self.config['celtic_motifs']:
+            if motif in sequence:
+                found_motifs.append(motif)
+        return found_motifs

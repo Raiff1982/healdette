@@ -5,3 +5,45 @@
 2025-09-26 08:53:10,739 - INFO - Pipeline completed successfully
 2025-09-26 08:53:59,044 - INFO - Starting Healdette antibody generation pipeline
 2025-09-26 08:53:59,045 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\sample_input.json
+2025-09-26 08:56:48,652 - INFO - Generated 0 binders
+2025-09-26 08:56:48,653 - INFO - Results saved to K:\Codette the DevUI\healdette\test_output\results.json
+2025-09-26 08:56:48,655 - INFO - Pipeline completed successfully
+2025-09-26 08:57:23,258 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 08:57:23,258 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\sample_input.json
+2025-09-26 09:00:00,636 - INFO - Generated 0 binders
+2025-09-26 09:00:00,637 - INFO - Results saved to K:\Codette the DevUI\healdette\test_output\results.json
+2025-09-26 09:00:00,638 - INFO - Pipeline completed successfully
+2025-09-26 09:00:33,788 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 09:00:33,788 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\sample_input.json
+2025-09-26 09:03:43,306 - INFO - Generated 0 binders
+2025-09-26 09:03:43,307 - INFO - Results saved to K:\Codette the DevUI\healdette\test_output\results.json
+2025-09-26 09:03:43,307 - INFO - Pipeline completed successfully
+2025-09-26 09:05:16,150 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 09:05:16,150 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\sample_input.json
+2025-09-26 09:08:32,058 - INFO - Generated 0 binders
+2025-09-26 09:08:32,059 - INFO - Results saved to K:\Codette the DevUI\healdette\test_output\results.json
+2025-09-26 09:08:32,059 - INFO - Pipeline completed successfully
+2025-09-26 09:10:55,976 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 09:10:55,976 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\sample_input.json
+2025-09-26 09:16:31,512 - INFO - Generated 0 binders
+2025-09-26 09:16:31,513 - INFO - Results saved to K:\Codette the DevUI\healdette\test_output\results.json
+2025-09-26 09:16:31,513 - INFO - Pipeline completed successfully
+2025-09-26 09:22:58,048 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 09:22:58,074 - ERROR - Pipeline failed: Missing required fields: cleaned_sequence, fusion_points
+2025-09-26 09:23:24,845 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 09:23:24,857 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\celtic_test_input.json
+2025-09-26 09:28:10,705 - INFO - Generated 0 binders
+2025-09-26 09:28:10,705 - INFO - Results saved to K:\Codette the DevUI\healdette\test_output\celtic_results.json
+2025-09-26 09:28:10,706 - INFO - Pipeline completed successfully
+2025-09-26 09:30:43,585 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 09:30:43,598 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\celtic_test_input.json
+2025-09-26 09:35:17,366 - INFO - Generated 0 binders
+2025-09-26 09:35:17,367 - INFO - Results saved to K:\Codette the DevUI\healdette\test_output\celtic_results.json
+2025-09-26 09:35:17,367 - INFO - Pipeline completed successfully
+2025-09-26 09:35:48,977 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 09:35:48,987 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\celtic_test_input.json
+2025-09-26 09:45:53,880 - INFO - Generated 0 binders
+2025-09-26 09:45:53,881 - INFO - Results saved to K:\Codette the DevUI\healdette\test_output\celtic_results.json
+2025-09-26 09:45:53,881 - INFO - Pipeline completed successfully
+2025-09-26 09:46:56,595 - INFO - Starting Healdette antibody generation pipeline
+2025-09-26 09:46:56,596 - INFO - Loaded fusion context from K:\Codette the DevUI\healdette\test_output\celtic_test_input.json
