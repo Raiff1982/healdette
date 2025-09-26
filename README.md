@@ -1,15 +1,26 @@
 
-# Healdette: Antibody Sequence Generation Pipeline
+# Healdette: Secure Multi-Ethnic Antibody Sequence Generation Pipeline
 
-A computational pipeline for generating and validating antibody sequences using machine learning and biophysical analysis. The pipeline integrates ProtGPT2 for sequence generation with BioPython for structural analysis and includes multi-ethnic HLA frequency data for immunogenicity assessment, with optimizations for various population-specific binding motifs.
+A secure and flexible computational pipeline for generating and validating antibody sequences with multi-ethnic support. The pipeline integrates ProtGPT2 for sequence generation with BioPython for structural analysis and includes multi-ethnic HLA frequency data for immunogenicity assessment, with optimizations for various population-specific binding motifs.
 
 ## Features
 
+### Core Functionality
 - Antibody sequence generation using ProtGPT2 with template-based constraints
-- Multi-ethnic binding motif optimization:
-  - Celtic: WY, RF, KW, YF pairs
-  - Asian: WH, RY, KF, HF pairs
-  - Mediterranean: FY, RW, KY, WF pairs
+- Multi-ethnic binding motif optimization with population-specific parameters
+- Comprehensive validation and analysis pipeline
+
+### Multi-Interface Support
+- Modern web interface for easy configuration management
+- Command-line interface for automation and scripting
+- Python API for programmatic access
+
+### Security Features
+- Comprehensive input validation and sanitization
+- CSRF protection and rate limiting
+- Secure file operations with integrity checks
+- Detailed security and audit logging
+- Automated backup system with validation
 - Population-specific sequence validation parameters:
   Celtic:
     - Aromatic content: 15-27%
