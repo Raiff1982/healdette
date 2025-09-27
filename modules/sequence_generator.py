@@ -74,16 +74,14 @@ class SequenceGenerator:
             output = self.model.generate(
                 input_ids,
                 do_sample=True,
-                top_k=40,
-                top_p=0.85,
-                temperature=0.7,
+                top_k=50,
+                top_p=0.92,
+                temperature=0.8,
                 max_length=120,
-                min_length=80,
+                min_length=60,
                 pad_token_id=self.tokenizer.eos_token_id,
-                repetition_penalty=1.5,
-                no_repeat_ngram_size=3,  # Prevent repetitive patterns
-                num_return_sequences=1,
-                early_stopping=True
+                repetition_penalty=1.3,
+                no_repeat_ngram_size=3  # Prevent repetitive patterns
             )
             
             sequence = self.tokenizer.decode(output[0], skip_special_tokens=True)
@@ -117,11 +115,21 @@ class SequenceGenerator:
                 self.celtic_params["net_charge"]["max"]):
                 criteria_met += 1
             
-            # Accept sequences meeting criteria and realism checks
-            if criteria_met >= 2:
+            # Accept sequences meeting minimum criteria
+            meets_realism = self._check_protein_realism(sequence)
+            no_homopolymer = not self._check_homopolymer(sequence)
+            
+            quality_score = criteria_met + (1 if meets_realism else 0) + (1 if no_homopolymer else 0)
+            
+            # Accept if good quality or running out of attempts
+            if quality_score >= 3 or (attempts > max_attempts * 0.8 and not sequences):
                 sequences.append(sequence)
             
             attempts += 1
+            
+            # Break early if we have enough sequences
+            if len(sequences) >= num_sequences:
+                break
             
             attempts += 1
             
