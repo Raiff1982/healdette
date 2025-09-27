@@ -1,0 +1,39 @@
+{
+    "global_params": {
+        "sequence_length": {
+            "min": 40,
+            "max": 70
+        },
+        "structural_params": {
+            "helix_propensity": {
+                "min": 20,
+                "max": 50
+            },
+            "sheet_propensity": {
+                "min": 10,
+                "max": 40
+            }
+        },
+        "homopolymer_threshold": 4
+    },
+    "populations": {
+        "celtic": {
+            "ancestry_weight": 1.0,
+            "binding_motifs": ["WY", "RF", "KH", "YF", "WF", "RY", "KF"],
+            "biophysical_params": {
+                "aromatic_content": {
+                    "min": 15,
+                    "max": 27
+                },
+                "hydrophobic_content": {
+                    "min": 35,
+                    "max": 45
+                },
+                "net_charge": {
+                    "min": 5,
+                    "max": 15
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "sequence": "MKTLWILLLLKRHKFYRYKHFYFFFLLITFFSFSCKIDSKLLKIDKKDTKYTFKINLDTV\nLINPDSINLNSFKILDIYNFNGKIIIADRFNNRILIFNEKGKFIKTIGKIGRGPGEYQFP\nLDIIIKKDTLYVYDIGNKRIIKYNINSFEYLDSIKLPFLGNYIEKIKDKLLLIPYFQSRK\nDSLERYCLVDLSGKILKRYDKFPKVYYPNPFNYSYYHSFGNKIAYFHPLSDEIY",
+    "validation": {
+      "valid": true,
+      "warnings": [],
+      "metrics": {
+        "aromatic_content": 18.565400843881857,
+        "hydrophobic_content": 37.9746835443038,
+        "net_charge": 22,
+        "binding_motifs": {
+          "scores": {
+            "celtic": {
+              "score": 0.7142857142857143,
+              "weighted_score": 0.7142857142857143
+            }
+          },
+          "total_score": 0
+        }
+      },
+      "population_scores": {
+        "celtic": {
+          "score": 0.5599999999999999,
+          "weight": 1.0
+        }
+      }
+    }
+  }
+]
