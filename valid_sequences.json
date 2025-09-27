@@ -1,18 +1,18 @@
 [
   {
-    "sequence": "MKTLWILLLLKRHKFYRYKHFYFFFLLITFFSFSCKIDSKLLKIDKKDTKYTFKINLDTV\nLINPDSINLNSFKILDIYNFNGKIIIADRFNNRILIFNEKGKFIKTIGKIGRGPGEYQFP\nLDIIIKKDTLYVYDIGNKRIIKYNINSFEYLDSIKLPFLGNYIEKIKDKLLLIPYFQSRK\nDSLERYCLVDLSGKILKRYDKFPKVYYPNPFNYSYYHSFGNKIAYFHPLSDEIY",
+    "sequence": "RFTISRDNSKNTLYLQMNSLRAEDTAVYYCKRHKFY\nLYFMFGPGTRLIVTDFNLQFLLLYSVHKRSEITCFAQGFYPRDVTISWYQNNEPQSTNYT\nSNPILNKDQTYSMYSHLTFTASDWENQDVYTCEVNHSSLQSPLIKNFSSGQCDSTCNTTE\nEFHCSVFIYFPLVVIITKTVLFGLCYFSIKKIKCN\n",
     "validation": {
       "valid": true,
       "warnings": [],
       "metrics": {
-        "aromatic_content": 18.565400843881857,
-        "hydrophobic_content": 37.9746835443038,
-        "net_charge": 22,
+        "aromatic_content": 15.897435897435896,
+        "hydrophobic_content": 35.38461538461539,
+        "net_charge": 7,
         "binding_motifs": {
           "scores": {
             "celtic": {
-              "score": 0.7142857142857143,
-              "weighted_score": 0.7142857142857143
+              "score": 0.5714285714285714,
+              "weighted_score": 0.5714285714285714
             }
           },
           "total_score": 0
@@ -20,7 +20,7 @@
       },
       "population_scores": {
         "celtic": {
-          "score": 0.5599999999999999,
+          "score": 0.7,
           "weight": 1.0
         }
       }
